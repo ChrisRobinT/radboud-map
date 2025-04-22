@@ -6,11 +6,17 @@
   <title>Radboud Campus Map</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
   <style>#map { height: 100vh; }</style>
 </head>
 <body>
+  <div class="topnav">
+    <div class="box" id = "navigation_box">
+      <input type="search" id = "search" placeholder="Search...">
+    </div>
+  </div> 
   <div id="map"></div>
-
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="js/map.js"></script>
 </body>

@@ -9,3 +9,13 @@ body, html {
     width: 100%;
   }
   
+  #navigation_box {
+    margin: 0 auto;
+    display: block;
+    width: 100vw;
+    max-width: 600px;
+  }
+
+  #search {
+    width: 100%;
+  }
