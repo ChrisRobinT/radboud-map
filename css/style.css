@@ -19,3 +19,7 @@ body, html {
   #search {
     width: 100%;
   }
+
+  #infoPanel {
+    margin: 10px;
+  }
