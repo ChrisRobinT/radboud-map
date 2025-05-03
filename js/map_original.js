@@ -29,7 +29,7 @@ fetch('data/buildings.geojson')
       },
 
       onEachFeature: function (feature, layer) {
-        layer.on('click', function() { // User clicks on something on the map
+        layer.on('click', function(e) { // User clicks on something on the map
             const props = this.feature.properties;
             
             document.getElementById('infoPanel').innerHTML = 
@@ -97,7 +97,7 @@ fetch('data/buildings.geojson')
                           fillOpacity: 1 
                         });
                         current_room = this;
-                      } else { // The case that the room currently in focus is the room that is clicked on
+                      } else { // The case that the room currently 
                         document.getElementById('infoPanel').innerHTML = 
                           `<strong>${props.name}</strong><br>
                           Code: ${props.code || "N/A"}`;
@@ -119,8 +119,6 @@ fetch('data/buildings.geojson')
       }
   }).addTo(map);
 
-
-/* Search functionality */
 const searchInput = document.getElementById('search');
 const searchResults = document.getElementById('searchResults');
 
@@ -132,47 +130,33 @@ searchInput.addEventListener('input', function() {
 
   const matches = fullList.features.filter(feature => 
     (feature.properties.name && feature.properties.name.toLowerCase().includes(query)) ||
-    ((feature.properties.building_code || '') + " " + (feature.properties.code || '')).toLowerCase().includes(query)
-  ); // Collect features matching what the user typed so far
+    ((feature.properties.building_code || '') + (feature.properties.code || '')).toLowerCase().includes(query)
+  );
 
-  matches.forEach(feature => { // Iterate over the matched features...
+  matches.forEach(feature => {
     const li = document.createElement('li');
-    if (feature.properties.type === 'building') { // ...and if the feature is a building, add an event listener to the listing that simulates a click on that building on the map...
+    if (feature.properties.type == 'building') {
       li.textContent = feature.properties.name;
       li.addEventListener('click', function() {
+        const bounds = L.geoJSON(feature).getBounds();
+        map.fitBounds(bounds, { maxZoom: 18 });
         searchResults.innerHTML = '';
         searchInput.value = feature.properties.name;
-        map.eachLayer(layer => {
-          if (layer.feature && layer.feature.properties.type === 'building' &&
-              layer.feature.properties.code === feature.properties.code) {
-            layer.fire('click');
-          }
-        });
       });
-    } else { // ...and otherwise the feature is a room, so add an event listeners to the listing...
-      li.textContent = (feature.properties.building_code || '') + " " + (feature.properties.code || '');
+    } else {
+      li.textContent = (feature.properties.building_code || '') + (feature.properties.code || '');
       li.addEventListener('click', function() {
+        const bounds = L.geoJSON(feature).getBounds();
+        map.fitBounds(bounds, { maxZoom: 18 });
         searchResults.innerHTML = '';
-        searchInput.value = (feature.properties.building_code || '') + " " + (feature.properties.code || '');
-          map.eachLayer(layer => {
-            if (layer.feature && layer.feature.properties.type === 'building' &&
-                layer.feature.properties.code === feature.properties.building_code && 
-                (!current_building || (current_building && current_building.feature.properties.code !== feature.properties.building_code))) {
-                  layer.fire('click'); // ...that fires a click on the building only if that building is not currently in focus...
-            }
-          });
-        map.eachLayer(layer => {
-          if (layer.feature && layer.feature.properties.type === 'room' &&
-              layer.feature.properties.code === feature.properties.code) {
-            layer.fire('click'); // ...and always fires a click on that room.
-          }
-        });
+        searchInput.value = (feature.properties.building_code || '') + (feature.properties.code || '');
       });
     }
     li.style.cursor = 'pointer';
     li.style.padding = '5px';
     searchResults.appendChild(li);
   });
+
 });
 
 }).catch(error => console.error('Error loading GeoJSON:', error));
