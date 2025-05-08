@@ -1,10 +1,20 @@
-const map = L.map('map').setView([51.8215, 5.8620], 16);
+const bounds = L.latLngBounds(
+  [51.815, 5.844],  // South-West corner
+  [51.828, 5.88]   // North-East corner
+);
+
+const map = L.map('map', {
+  maxBounds: bounds,
+  maxBoundsViscosity: 1.0,
+  maxZoom: 20,
+  minZoom: 15
+}).setView([51.8215, 5.8620], 16);
+
+
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 20,
   attribution: '© OpenStreetMap'
 }).addTo(map);
-
 
 
 let fullList;
