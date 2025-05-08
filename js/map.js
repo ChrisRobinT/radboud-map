@@ -1,7 +1,7 @@
 const map = L.map('map').setView([51.8215, 5.8620], 16);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
+  maxZoom: 20,
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
@@ -90,6 +90,7 @@ fetch('data/buildings.geojson')
                       }
 
                       if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
+                        
                         this.setStyle({
                           color: 'red',      
                           weight: 1,
