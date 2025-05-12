@@ -24,3 +24,7 @@ main {
   #infoPanel {
     margin: 10px;
   }
+
+  ul#searchResults{
+  display: none;
+}

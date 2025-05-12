@@ -135,6 +135,14 @@ fetch('data/buildings.geojson')
 const searchInput = document.getElementById('search');
 const searchResults = document.getElementById('searchResults');
 
+searchInput.addEventListener('focus', () => {
+  searchResults.style.display = 'block';
+});
+
+searchResults.addEventListener('click', () => {
+  searchResults.style.display = 'none';
+});
+
 searchInput.addEventListener('input', function() {
   const query = this.value.toLowerCase();
   searchResults.innerHTML = '';
