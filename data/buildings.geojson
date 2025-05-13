@@ -32,6 +32,16 @@
       {
         "type": "Feature",
         "properties": {
+          "type": "building",
+          "name": "Transitorium",
+          "code": "Transitorium",
+          "floors": 4
+        },
+        "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 5.8710934, 51.823939 ], [ 5.8712111, 51.8239277 ], [ 5.8712848, 51.8239206 ], [ 5.8719059, 51.823861 ], [ 5.8718524, 51.8236468 ], [ 5.8709409, 51.8237343 ], [ 5.8708887, 51.8237394 ], [ 5.8709431, 51.8239559 ], [ 5.8710934, 51.823939 ] ] ] ] }
+      },
+      {
+        "type": "Feature",
+        "properties": {
           "type": "room", "floor": 1,
           "building_code": "LIN",
           "code": "1"
