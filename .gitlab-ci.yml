@@ -1,0 +1,9 @@
+default:
+  image: ruby:3.2
+
+create-pages:
+  script:
+    - gem install bundler
+    - bundle install
+    - bundle exec jekyll build -d public
+  pages: true  # specifies that this is a Pages job and publishes the default public directory
