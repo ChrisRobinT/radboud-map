@@ -6,14 +6,13 @@ const bounds = L.latLngBounds(
 const map = L.map('map', {
   maxBounds: bounds,
   maxBoundsViscosity: 1.0,
-  maxZoom: 20,
+  maxZoom: 21,
   minZoom: 15
 }).setView([51.8215, 5.8620], 16);
 
-
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap'
+L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
+  maxZoom: 21,
+  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors'
 }).addTo(map);
 
 
