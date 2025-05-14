@@ -59,7 +59,7 @@ fetch('data/buildings.geojson')
             }
 
             if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
-              map.fitBounds(layer.getBounds(), {maxZoom: 18});
+              map.fitBounds(layer.getBounds(), {maxZoom: 20});
               
               this.setStyle({
                 color: 'red',      
