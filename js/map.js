@@ -45,22 +45,24 @@ fetch('data/buildings.geojson')
             `<strong>${props.name}</strong><br>
             Code: ${props.code || "N/A"}`;
 
-            if(roomLayer){ // If there is a room layer currently displayed, remove it
+            if(roomLayer && current_building !== this){ // If there is a room layer currently displayed, remove it
               map.removeLayer(roomLayer);
             }
             
-            if(current_building){ // If there is a building currently in focus, set it back to its default style
-              current_building.setStyle({
-                color: 'red',      
-                weight: 2,
-                fillColor: 'red',
-                fillOpacity: 0.3 
-              });
-            }
+
 
             if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
               map.fitBounds(layer.getBounds(), {maxZoom: 20});
-              
+
+              if(current_building){ // If there is a building currently in focus, set it back to its default style
+                current_building.setStyle({
+                  color: 'red',
+                  weight: 2,
+                  fillColor: 'red',
+                  fillOpacity: 0.3
+                });
+              }
+
               this.setStyle({
                 color: 'red',      
                 weight: 2,
@@ -120,10 +122,6 @@ fetch('data/buildings.geojson')
               }).addTo(map);
 
               current_building = this;
-            } else {
-              map.setView([51.8215, 5.8620], 16);
-              document.getElementById('infoPanel').innerHTML = "Click a building";
-              current_building = null;
             }
         });
       }
