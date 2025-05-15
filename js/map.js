@@ -121,6 +121,22 @@ fetch('data/buildings.geojson')
         }
       }).addTo(map);
 
+      map.on('zoomend', function () {
+        const zoom = map.getZoom();
+
+        if (zoom <= 16 && map.hasLayer(roomLayer)) {
+          map.removeLayer(roomLayer);
+          current_building.setStyle({
+            color: 'red',
+            weight: 2,
+            fillColor: 'red',
+            fillOpacity: 0.3
+          });
+          current_building = null;
+        }
+      });
+
+
       /* Search functionality */
       const searchInput = document.getElementById('search');
       const searchResults = document.getElementById('searchResults');
