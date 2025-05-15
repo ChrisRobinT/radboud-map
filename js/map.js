@@ -8,7 +8,7 @@ const map = L.map('map', {
   maxBounds: bounds,
   maxBoundsViscosity: 1.0,
   maxZoom: 21,
-  minZoom: 15
+  minZoom: 16
 }).setView([51.8215, 5.8620], 16);
 
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
@@ -48,7 +48,7 @@ fetch('data/buildings.geojson')
             }
 
             if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
-              map.fitBounds(layer.getBounds(), {maxZoom: 18});
+              map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
