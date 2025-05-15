@@ -48,7 +48,6 @@ fetch('data/buildings.geojson')
             if(roomLayer && current_building !== this){ // If there is a room layer currently displayed, remove it
               map.removeLayer(roomLayer);
             }
-            
 
 
             if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
@@ -127,6 +126,20 @@ fetch('data/buildings.geojson')
       }
   }).addTo(map);
 
+    map.on('zoomend', function () {
+      const zoom = map.getZoom();
+
+      if (zoom <= 16 && map.hasLayer(roomLayer)) {
+        map.removeLayer(roomLayer);
+        current_building.setStyle({
+          color: 'red',
+          weight: 2,
+          fillColor: 'red',
+          fillOpacity: 0.3
+        });
+        current_building = null;
+      }
+    });
 
 /* Search functionality */
 const searchInput = document.getElementById('search');
