@@ -1,0 +1,99 @@
+<PAMDataset>
+  <Metadata domain="IMAGE_STRUCTURE">
+    <MDI key="COMPRESSION">JPEG</MDI>
+    <MDI key="INTERLEAVE">PIXEL</MDI>
+    <MDI key="SOURCE_COLOR_SPACE">YCbCr</MDI>
+  </Metadata>
+  <Metadata>
+    <MDI key="EXIF_ApertureValue">(1.87)</MDI>
+    <MDI key="EXIF_BrightnessValue">(7.9)</MDI>
+    <MDI key="EXIF_ColorSpace">1</MDI>
+    <MDI key="EXIF_ComponentsConfiguration">0x01 0x02 0x03 0x00</MDI>
+    <MDI key="EXIF_DateTime">2025:05:12 16:03:25</MDI>
+    <MDI key="EXIF_DateTimeDigitized">2025:05:12 16:03:25</MDI>
+    <MDI key="EXIF_DateTimeOriginal">2025:05:12 16:03:25</MDI>
+    <MDI key="EXIF_DigitalZoomRatio">(1)</MDI>
+    <MDI key="EXIF_ExifVersion">0220</MDI>
+    <MDI key="EXIF_ExposureBiasValue">(0)</MDI>
+    <MDI key="EXIF_ExposureMode">0</MDI>
+    <MDI key="EXIF_ExposureProgram">2</MDI>
+    <MDI key="EXIF_ExposureTime">(0.002132)</MDI>
+    <MDI key="EXIF_Flash">0</MDI>
+    <MDI key="EXIF_FlashpixVersion">0100</MDI>
+    <MDI key="EXIF_FNumber">(1.87)</MDI>
+    <MDI key="EXIF_FocalLength">(5.56)</MDI>
+    <MDI key="EXIF_FocalLengthIn35mmFilm">0</MDI>
+    <MDI key="EXIF_GPSLatitude">(51) (49) (25.89)</MDI>
+    <MDI key="EXIF_GPSLatitudeRef">N</MDI>
+    <MDI key="EXIF_GPSLongitude">(5) (52) (16.28)</MDI>
+    <MDI key="EXIF_GPSLongitudeRef">E</MDI>
+    <MDI key="EXIF_ImageDescription"></MDI>
+    <MDI key="EXIF_Interoperability_Index">R98</MDI>
+    <MDI key="EXIF_Interoperability_Version">0x30 0x31 0x30 0x30</MDI>
+    <MDI key="EXIF_ISOSpeedRatings">100</MDI>
+    <MDI key="EXIF_LightSource">255</MDI>
+    <MDI key="EXIF_Make">Nothing</MDI>
+    <MDI key="EXIF_MakerNote">NTDebugStart,ID:4,LUX:157.00,ADRC:1.41,AISCENE:0,IR:0.0,CCT:5524,PROC:[RPE,[MMF:ADRCGain:1.00,Lcep:[1000, 1418, 1412],Anchor:[2023, 2024, 2525, 2367, 2368, 2954]]]NTDebugEnd</MDI>
+    <MDI key="EXIF_MaxApertureValue">(1.81)</MDI>
+    <MDI key="EXIF_MeteringMode">2</MDI>
+    <MDI key="EXIF_Model">A142P</MDI>
+    <MDI key="EXIF_OffsetTime">+02:00</MDI>
+    <MDI key="EXIF_OffsetTimeDigitized">+02:00</MDI>
+    <MDI key="EXIF_OffsetTimeOriginal">+02:00</MDI>
+    <MDI key="EXIF_Orientation">1</MDI>
+    <MDI key="EXIF_PixelXDimension">4080</MDI>
+    <MDI key="EXIF_PixelYDimension">3072</MDI>
+    <MDI key="EXIF_RecommendedExposureIndex">0</MDI>
+    <MDI key="EXIF_ResolutionUnit">2</MDI>
+    <MDI key="EXIF_SceneCaptureType">0</MDI>
+    <MDI key="EXIF_SensitivityType">0</MDI>
+    <MDI key="EXIF_ShutterSpeedValue">(8.873)</MDI>
+    <MDI key="EXIF_Software">MediaTek Camera Application</MDI>
+    <MDI key="EXIF_SubSecTime">867</MDI>
+    <MDI key="EXIF_SubSecTime_Digitized">867</MDI>
+    <MDI key="EXIF_SubSecTime_Original">867</MDI>
+    <MDI key="EXIF_WhiteBalance">0</MDI>
+    <MDI key="EXIF_XResolution">(72)</MDI>
+    <MDI key="EXIF_YCbCrPositioning">2</MDI>
+    <MDI key="EXIF_YResolution">(72)</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">172</MDI>
+      <MDI key="STATISTICS_MEAN">134.95089613971</MDI>
+      <MDI key="STATISTICS_MINIMUM">13</MDI>
+      <MDI key="STATISTICS_STDDEV">21.76306554039</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="2">
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">170</MDI>
+      <MDI key="STATISTICS_MEAN">133.45808823529</MDI>
+      <MDI key="STATISTICS_MINIMUM">12</MDI>
+      <MDI key="STATISTICS_STDDEV">21.11719995712</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="3">
+    <Metadata domain="IMAGE_STRUCTURE">
+      <MDI key="COMPRESSION">JPEG</MDI>
+    </Metadata>
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">177</MDI>
+      <MDI key="STATISTICS_MEAN">124.45094209559</MDI>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_STDDEV">36.227844478587</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
