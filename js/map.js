@@ -4,8 +4,13 @@ const bounds = L.latLngBounds(
     [51.828, 5.88]   // North-East corner
 );
 
+const smoothRenderer = L.canvas({
+  padding: 1.0
+});
+
 const map = L.map('map', {
   maxBounds: bounds,
+  renderer: smoothRenderer,
   maxBoundsViscosity: 1.0,
   maxZoom: 21,
   minZoom: 16
@@ -13,7 +18,12 @@ const map = L.map('map', {
 
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
   maxZoom: 21,
-  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors'
+  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors',
+  keepBuffer: 4,
+  edgeBufferTiles: 4,
+  edgeBufferPx: 1000,
+  updateWhenIdle: false,
+  updateWhenZooming: true
 }).addTo(map);
 
 let fullList;
