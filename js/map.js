@@ -29,6 +29,7 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
 let fullList;
 let roomLayer;
 let current_building = null;
+let current_floor = null;
 
 fetch('data/buildings.geojson')
     .then(response => response.json())
@@ -150,7 +151,10 @@ fetch('data/buildings.geojson')
       /* Search functionality */
       const searchInput = document.getElementById('search');
       const searchResults = document.getElementById('searchResults');
+      const buildingTools = document.getElementById('buildingTools');
       const infoPanel = document.getElementById('infoPanel');
+      const upButton = document.getElementById('upButton');
+      const downButton = document.getElementById('downButton');
 
       // Show search results when input is focused
       searchInput.addEventListener('focus', () => {
@@ -169,10 +173,10 @@ fetch('data/buildings.geojson')
       // Update infoPanel display
       function updateInfoPanel(content) {
         if (content) {
+          buildingTools.style.display = 'flex';
           infoPanel.innerHTML = content;
-          infoPanel.style.display = 'block';
         } else {
-          infoPanel.style.display = 'none';
+          buildingTools.style.display = 'none';
         }
       }
 
