@@ -107,13 +107,17 @@ body {
 .floorButton {
   flex: 1 1 auto;
   background: white;
-  cursor: pointer;
   border: none;
   padding: 10px;
 }
 
-.floorButton:hover {
+.floorButton:hover:enabled {
+  cursor: pointer;
   background-color: #f5f5f5;
+}
+
+.floorButton:disabled svg {
+  opacity: 0.4;
 }
 
 #upButton {
