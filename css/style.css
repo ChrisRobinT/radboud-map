@@ -80,8 +80,24 @@ body {
   z-index: 1;
 }
 
+#bottomTools {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#bottomTools .clickable {
+  pointer-events: auto;
+}
+
 #buildingTools {
-  position: absolute;
   bottom: 20px;
   left: 20px;
   display: none;
@@ -99,9 +115,14 @@ body {
 
 #floorSelect {
   z-index: 1000;
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .floorButton {
@@ -126,6 +147,45 @@ body {
 }
 
 #downButton {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+#zoomControl {
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  margin-left: auto;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  overflow: hidden;
+}
+
+.zoomButton {
+  flex: 1 1 auto;
+  background: white;
+  border: none;
+  padding: 10px;
+}
+
+.zoomButton:hover:enabled {
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.zoomButton:disabled svg {
+  opacity: 0.4;
+}
+
+#plusButton {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+#minusButton {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }

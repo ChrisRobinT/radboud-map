@@ -1,4 +1,3 @@
-// map.js - Updated with improved search functionality
 const bounds = L.latLngBounds(
     [51.815, 5.844],  // South-West corner
     [51.828, 5.88]   // North-East corner
@@ -8,13 +7,43 @@ const smoothRenderer = L.canvas({
   padding: 1.0
 });
 
+const maxZoom = 21;
+const minZoom = 16;
+
 const map = L.map('map', {
   maxBounds: bounds,
   renderer: smoothRenderer,
   maxBoundsViscosity: 1.0,
-  maxZoom: 21,
-  minZoom: 16
+  maxZoom: maxZoom,
+  minZoom: minZoom
 }).setView([51.8215, 5.8620], 16);
+
+map.zoomControl.remove();
+
+const plusButton = document.getElementById('plusButton');
+const minusButton = document.getElementById('minusButton');
+
+plusButton.addEventListener('click', () => {
+  map.zoomIn();
+});
+
+minusButton.addEventListener('click', () => {
+  map.zoomOut();
+});
+
+map.on('zoomend', function () {
+  if (map.getZoom() === maxZoom) {
+    plusButton.disabled = true;
+  } else {
+    plusButton.disabled = false;
+  }
+
+  if (map.getZoom() === minZoom) {
+    minusButton.disabled = true;
+  } else {
+    minusButton.disabled = false;
+  }
+});
 
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
   maxZoom: 21,
