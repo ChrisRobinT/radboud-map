@@ -48,11 +48,11 @@ map.on('zoomend', function () {
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
   maxZoom: 21,
   attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors',
-  // keepBuffer: 4,
-  // edgeBufferTiles: 3,
-  // edgeBufferPx: 1000,
-  // updateWhenIdle: false,
-  // updateWhenZooming: true
+  keepBuffer: 4,
+  edgeBufferTiles: 3,
+  edgeBufferPx: 1000,
+  updateWhenIdle: false,
+  updateWhenZooming: true
 }).addTo(map);
 
 const upButton = document.getElementById('upButton');
@@ -111,10 +111,8 @@ fetch('data/buildings.geojson')
               updateInfoPanel(`<strong>${props.name}</strong><br>
               Floor ${current_floor}<br>
               Code: ${props.code || "N/A"}`);
-              
 
               map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
-
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
@@ -144,8 +142,8 @@ fetch('data/buildings.geojson')
                 },
 
                 onEachFeature: function (room_feature, room_layer){
-                  room_layer.on('click', function(e){ // The thing the user clicked on was a room
-                        const room_props = this.feature.properties;
+                  room_layer.on('click', function(e) {
+                    const room_props = e.target.feature.properties;
 
                         updateInfoPanel(`<strong>${props.name}</strong><br>
                         Floor ${current_floor}<br>
@@ -162,7 +160,8 @@ fetch('data/buildings.geojson')
 
                         if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
 
-                          this.setStyle({
+                          const layer = this;
+                          layer.setStyle({
                             color: '#e74c3c',
                             weight: 1,
                             fillColor: '#e74c3c',
@@ -191,7 +190,7 @@ fetch('data/buildings.geojson')
       map.on('zoomend', function () {
         const zoom = map.getZoom();
 
-        if (zoom <= 16 && roomLayer) {
+        if (zoom <= 16 && map.hasLayer(roomLayer)) {
           map.removeLayer(roomLayer);
           current_building.setStyle({
             color: '#e74c3c',
@@ -237,7 +236,7 @@ fetch('data/buildings.geojson')
           },
           
           onEachFeature: function (room_feature, room_layer){
-            room_layer.on('click', function(e){ // The thing the user clicked on was a room
+            room_layer.on('click', function(){ // The thing the user clicked on was a room
                 const room_props = this.feature.properties;
 
                 updateInfoPanel(`<strong>${current_building.feature.properties.name}</strong><br>
