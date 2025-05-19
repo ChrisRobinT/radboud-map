@@ -191,7 +191,7 @@ fetch('data/buildings.geojson')
       map.on('zoomend', function () {
         const zoom = map.getZoom();
 
-        if (zoom <= 16 && map.hasLayer(roomLayer)) {
+        if (zoom <= 16 && roomLayer) {
           map.removeLayer(roomLayer);
           current_building.setStyle({
             color: '#e74c3c',
