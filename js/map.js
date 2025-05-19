@@ -112,7 +112,12 @@ fetch('data/buildings.geojson')
               Floor ${current_floor}<br>
               Code: ${props.code || "N/A"}`);
 
+              map.dragging.disable();
               map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
+
+              map.once('zoomend', () => {
+                map.dragging.enable();
+              });
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
@@ -143,7 +148,7 @@ fetch('data/buildings.geojson')
 
                 onEachFeature: function (room_feature, room_layer){
                   room_layer.on('click', function(e) {
-                    const room_props = e.target.feature.properties;
+                        const room_props = e.target.feature.properties;
 
                         updateInfoPanel(`<strong>${props.name}</strong><br>
                         Floor ${current_floor}<br>
@@ -190,7 +195,7 @@ fetch('data/buildings.geojson')
       map.on('zoomend', function () {
         const zoom = map.getZoom();
 
-        if (zoom <= 16 && map.hasLayer(roomLayer)) {
+        if (zoom <= 16 && roomLayer) {
           map.removeLayer(roomLayer);
           current_building.setStyle({
             color: '#e74c3c',
