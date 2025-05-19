@@ -48,11 +48,11 @@ map.on('zoomend', function () {
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
   maxZoom: 21,
   attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors',
-  keepBuffer: 4,
-  edgeBufferTiles: 3,
-  edgeBufferPx: 1000,
-  updateWhenIdle: false,
-  updateWhenZooming: true
+  // keepBuffer: 4,
+  // edgeBufferTiles: 3,
+  // edgeBufferPx: 1000,
+  // updateWhenIdle: false,
+  // updateWhenZooming: true
 }).addTo(map);
 
 const upButton = document.getElementById('upButton');
