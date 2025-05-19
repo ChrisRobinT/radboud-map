@@ -111,8 +111,14 @@ fetch('data/buildings.geojson')
               updateInfoPanel(`<strong>${props.name}</strong><br>
               Floor ${current_floor}<br>
               Code: ${props.code || "N/A"}`);
+              
+              map.dragging.disable();
 
               map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
+
+              map.once('moveend', () => {
+                map.dragging.enable();
+              });
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
