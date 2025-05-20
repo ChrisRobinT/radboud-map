@@ -98,6 +98,7 @@ fetch('data/buildings.geojson')
           layer.on('click', function() { // User clicks on something on the map
             const props = this.feature.properties;
 
+
             updateInfoPanel(`<strong>${props.name}</strong><br>
             Floor ${current_floor}<br>
             Code: ${props.code || "N/A"}`);
@@ -203,6 +204,7 @@ fetch('data/buildings.geojson')
             fillColor: '#e74c3c',
             fillOpacity: 0.3
           });
+          updateInfoPanel(null);
           current_building = null;
           current_floor = null;
         }
@@ -296,6 +298,7 @@ fetch('data/buildings.geojson')
       const searchResults = document.getElementById('searchResults');
       const buildingTools = document.getElementById('buildingTools');
       const infoPanel = document.getElementById('infoPanel');
+      const floorSelect = document.getElementById('floorSelect');
 
       // Show search results when input is focused
       searchInput.addEventListener('focus', () => {
@@ -315,9 +318,12 @@ fetch('data/buildings.geojson')
       function updateInfoPanel(content) {
         if (content) {
           buildingTools.style.display = 'flex';
+          infoPanel.style.display = 'block';
+          floorSelect.style.display = 'flex';
           infoPanel.innerHTML = content;
         } else {
-          buildingTools.style.display = 'none';
+          infoPanel.style.display = 'none';
+          floorSelect.style.display = 'none';
         }
       }
 
