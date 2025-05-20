@@ -214,6 +214,8 @@ fetch('data/buildings.geojson')
 
       /* Floor change functionality */
       function floorChange(change) {
+        if (change === 0) return;
+
         if(current_room){ // If there is a room currently displayed, set it back to its default style
           current_room.setStyle({
             color: '#7f8c8d',
@@ -341,7 +343,8 @@ fetch('data/buildings.geojson')
 
         const matches = fullList.features.filter(feature =>
             (feature.properties.name && feature.properties.name.toLowerCase().includes(query)) ||
-            ((feature.properties.building_code || '') + " " + (feature.properties.code || '')).toLowerCase().includes(query)
+            ((feature.properties.building_code || '') + " " + (feature.properties.code || '')).toLowerCase().includes(query) ||
+            ((feature.properties.building_code || '') + (feature.properties.code || '')).toLowerCase().includes(query)
         );
 
         if (matches.length === 0) {
@@ -404,6 +407,9 @@ fetch('data/buildings.geojson')
                 layer.fire('click');
               }
             });
+
+            //Change the floor if needed
+            floorChange(feature.properties.floor - current_floor);
 
             // Then click on the room
             setTimeout(() => {
