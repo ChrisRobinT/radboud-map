@@ -18,6 +18,8 @@ const map = L.map('map', {
   minZoom: minZoom
 }).setView([51.8215, 5.8620], 16);
 
+const buildingLayer = L.featureGroup().addTo(map);
+
 map.zoomControl.remove();
 
 const plusButton = document.getElementById('plusButton');
@@ -61,22 +63,7 @@ const downButton = document.getElementById('downButton');
 let fullList;
 let roomLayer;
 let current_building = null;
-let current_floor = null;
 let current_room = null;
-
-function setUpDownButtons() {
-  if (current_building.feature.properties.floors.includes(current_floor+1)) {
-    upButton.disabled = false;
-  } else {
-    upButton.disabled = true;
-  }
-
-  if (current_building.feature.properties.floors.includes(current_floor-1)) {
-    downButton.disabled = false;
-  } else {
-    downButton.disabled = true;
-  }
-}
 
 fetch('data/buildings.geojson')
     .then(response => response.json())
@@ -84,7 +71,7 @@ fetch('data/buildings.geojson')
       fullList = data;
       L.geoJSON(fullList, {
         filter: function(feature){
-          return feature.properties.type === "building";
+          return feature.properties.type === "building" && feature.properties.floor === 0;
         },
 
         style: { // Default building style
@@ -100,7 +87,7 @@ fetch('data/buildings.geojson')
 
 
             updateInfoPanel(`<strong>${props.name}</strong><br>
-            Floor ${current_floor}<br>
+            Floor ${props.floor}<br>
             Code: ${props.code || "N/A"}`);
 
             if(roomLayer && current_building !== this){ // If there is a room layer currently displayed, remove it
@@ -108,17 +95,17 @@ fetch('data/buildings.geojson')
             }
 
             if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
-              current_floor = 0;
               updateInfoPanel(`<strong>${props.name}</strong><br>
-              Floor ${current_floor}<br>
+              Floor ${props.floor}<br>
               Code: ${props.code || "N/A"}`);
-
+              
               map.dragging.disable();
               map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
 
               map.once('zoomend', () => {
                 map.dragging.enable();
               });
+
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
@@ -138,7 +125,7 @@ fetch('data/buildings.geojson')
 
               roomLayer = L.geoJSON(fullList, {
                 filter: function(room_feature){
-                  return room_feature.properties.type === "room" && room_feature.properties.building_code === props.code && room_feature.properties.floor === current_floor;
+                  return room_feature.properties.type === "room" && room_feature.properties.building_code === props.code && room_feature.properties.floor === props.floor;
                 },
                 style: { // Default room style
                   color: '#7f8c8d',
@@ -152,7 +139,7 @@ fetch('data/buildings.geojson')
                         const room_props = e.target.feature.properties;
 
                         updateInfoPanel(`<strong>${props.name}</strong><br>
-                        Floor ${current_floor}<br>
+                        Floor ${props.floor}<br>
                         Code: ${(room_props.building_code + " " + room_props.code) || "N/A"}`);
 
                         if(current_room){ // If there is a room currently displayed, set it back to its default style
@@ -176,7 +163,7 @@ fetch('data/buildings.geojson')
                           current_room = this;
                         } else { // The case that the room currently in focus is the room that is clicked on
                           updateInfoPanel(`<strong>${props.name}</strong><br>
-                          Floor ${current_floor}<br>
+                          Floor ${props.floor}<br>
                           Code: ${props.code || "N/A"}`);
 
                           current_room = null;
@@ -190,8 +177,9 @@ fetch('data/buildings.geojson')
               setUpDownButtons();
             }
           });
+          buildingLayer.addLayer(layer); 
         }
-      }).addTo(map);
+      })
 
       map.on('zoomend', function () {
         const zoom = map.getZoom();
@@ -206,82 +194,224 @@ fetch('data/buildings.geojson')
           });
           updateInfoPanel(null);
           current_building = null;
-          current_floor = null;
         }
       });
 
+      function setUpDownButtons() {
+        if (fullList.features.find(feature => feature.properties.name === current_building.feature.properties.name && feature.properties.floor === current_building.feature.properties.floor+1)) {
+          upButton.disabled = false;
+        } else {
+          upButton.disabled = true;
+        }
+
+        if (fullList.features.find(feature => feature.properties.name === current_building.feature.properties.name && feature.properties.floor === current_building.feature.properties.floor-1)) {
+          downButton.disabled = false;
+        } else {
+          downButton.disabled = true;
+        }
+      }
 
 
       /* Floor change functionality */
       function floorChange(change) {
         if (change === 0) return;
 
-        if(current_room){ // If there is a room currently displayed, set it back to its default style
-          current_room.setStyle({
-            color: '#7f8c8d',
-            weight: 1,
-            fillColor: '#7f8c8d',
-            fillOpacity: 0.3
-          });
-          current_room = null;
-        }
+        // if(current_room){ // If there is a room currently displayed, set it back to its default style
+        //   current_room.setStyle({
+        //     color: '#7f8c8d',
+        //     weight: 1,
+        //     fillColor: '#7f8c8d',
+        //     fillOpacity: 0.3
+        //   });
+        //   current_room = null;
+        // }
 
         map.removeLayer(roomLayer);
-        current_floor = current_floor + change;
 
-        updateInfoPanel(`<strong>${current_building.feature.properties.name}</strong><br>
-        Floor ${current_floor}<br>
-        Code: ${current_building.feature.properties.code || "N/A"}`);
+        buildingLayer.eachLayer(function(layer) {
+          if (layer.feature && layer.feature.properties.name === current_building.feature.properties.name) {
+            buildingLayer.removeLayer(layer);
+          }
+        });
 
-        roomLayer = L.geoJSON(fullList, {
-          filter: function(room_feature){
-            return room_feature.properties.type === "room" && room_feature.properties.building_code === current_building.feature.properties.code && room_feature.properties.floor === current_floor;
-          },
-          style: { // Default room style
-            color: '#7f8c8d',
-            weight: 1,
-            fillColor: '#7f8c8d',
-            fillOpacity: 0.3
-          },
-          
-          onEachFeature: function (room_feature, room_layer){
-            room_layer.on('click', function(){ // The thing the user clicked on was a room
-                const room_props = this.feature.properties;
+        const targetBuilding = fullList.features.find(feature =>
+          feature.properties.type === "building" &&
+          feature.properties.name === current_building.feature.properties.name &&
+          feature.properties.floor === current_building.feature.properties.floor + change
+        );
 
-                updateInfoPanel(`<strong>${current_building.feature.properties.name}</strong><br>
-                Floor ${current_floor}<br>
-                Code: ${(room_props.building_code + " " + room_props.code) || "N/A"}`);
+        if (targetBuilding) {
+          L.geoJSON(targetBuilding, {
+            style: { // Default building style
+              color: '#e74c3c',
+              weight: 2,
+              fillColor: '#e74c3c',
+              fillOpacity: 0.3
+            },
 
-                if(current_room){ // If there is a room currently displayed, set it back to its default style
-                  current_room.setStyle({
-                    color: '#7f8c8d',
-                    weight: 1,
-                    fillColor: '#7f8c8d',
-                    fillOpacity: 0.3
-                  });
+            onEachFeature: function (feature, layer) {
+              layer.on('click', function() { // User clicks on something on the map
+                const props = this.feature.properties;
+                
+                updateInfoPanel(`<strong>${props.name}</strong><br>
+                Floor ${props.floor}<br>
+                Code: ${props.code || "N/A"}`);
+
+                if(roomLayer && current_building !== this){ // If there is a room layer currently displayed, remove it
+                  map.removeLayer(roomLayer);
                 }
 
-                if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
+                if(current_building !== this){ // If the building currently in focus is not the thing that is clicked on, or none is in focus...
+                  updateInfoPanel(`<strong>${props.name}</strong><br>
+                  Floor ${props.floor}<br>
+                  Code: ${props.code || "N/A"}`);
+
+                  if (!current_building || props.name !== current_building.feature.properties.name) {
+                    map.dragging.disable();
+                    map.flyToBounds(layer.getBounds(), {animate: true, duration: 0.6, maxZoom: 19});
+
+                    map.once('zoomend', () => {
+                      map.dragging.enable();
+                    });
+                  }
+
+                  if(current_building){ // If there is a building currently in focus, set it back to its default style
+                    current_building.setStyle({
+                      color: '#e74c3c',
+                      weight: 2,
+                      fillColor: '#e74c3c',
+                      fillOpacity: 0.3
+                    });
+                  }
 
                   this.setStyle({
                     color: '#e74c3c',
-                    weight: 1,
-                    fillColor: '#e74c3c',
+                    weight: 2,
+                    fillColor: 'white',
                     fillOpacity: 1
                   });
-                  current_room = this;
-                } else { // The case that the room currently in focus is the room that is clicked on
-                  updateInfoPanel(`<strong>${current_building.feature.properties.name}</strong><br>
-                  Floor ${current_floor}<br>
-                  Code: ${current_building.feature.properties.code || "N/A"}`);
 
-                  current_room = null;
+                  roomLayer = L.geoJSON(fullList, {
+                    filter: function(room_feature){
+                      return room_feature.properties.type === "room" && room_feature.properties.building_code === props.code && room_feature.properties.floor === props.floor;
+                    },
+                    style: { // Default room style
+                      color: '#7f8c8d',
+                      weight: 1,
+                      fillColor: '#7f8c8d',
+                      fillOpacity: 0.3
+                    },
+
+                    onEachFeature: function (room_feature, room_layer){
+                      room_layer.on('click', function(e) {
+                            const room_props = e.target.feature.properties;
+
+                            updateInfoPanel(`<strong>${props.name}</strong><br>
+                            Floor ${props.floor}<br>
+                            Code: ${(room_props.building_code + " " + room_props.code) || "N/A"}`);
+
+                            if(current_room){ // If there is a room currently displayed, set it back to its default style
+                              current_room.setStyle({
+                                color: '#7f8c8d',
+                                weight: 1,
+                                fillColor: '#7f8c8d',
+                                fillOpacity: 0.3
+                              });
+                            }
+
+                            if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
+
+                              const layer = this;
+                              layer.setStyle({
+                                color: '#e74c3c',
+                                weight: 1,
+                                fillColor: '#e74c3c',
+                                fillOpacity: 1
+                              });
+                              current_room = this;
+                            } else { // The case that the room currently in focus is the room that is clicked on
+                              updateInfoPanel(`<strong>${props.name}</strong><br>
+                              Floor ${props.floor}<br>
+                              Code: ${props.code || "N/A"}`);
+
+                              current_room = null;
+                            }
+                          }
+                      )
+                    }
+                  }).addTo(map);
+
+                  current_building = this;
+                  setUpDownButtons();
                 }
-              }
-            )
-          }
-        }).addTo(map);
-        setUpDownButtons();
+              });
+              buildingLayer.addLayer(layer);
+              targetLayer = layer;
+            }
+          })
+        }
+
+        if (targetLayer) {
+          targetLayer.fire('click');
+        }
+
+        
+
+        // current_building = fullList.features.find(feature => feature.properties.name === current_building.properties.name && feature.properties.floor === current_building.properties.floor+change);
+
+        // updateInfoPanel(`<strong>${current_building.properties.name}</strong><br>
+        // Floor ${current_building.properties.floor}<br>
+        // Code: ${current_building.properties.code || "N/A"}`);
+
+        // roomLayer = L.geoJSON(fullList, {
+        //   filter: function(room_feature){
+        //     return room_feature.properties.type === "room" && room_feature.properties.building_code === current_building.properties.code && room_feature.properties.floor === current_building.properties.floor;
+        //   },
+        //   style: { // Default room style
+        //     color: '#7f8c8d',
+        //     weight: 1,
+        //     fillColor: '#7f8c8d',
+        //     fillOpacity: 0.3
+        //   },
+          
+        //   onEachFeature: function (room_feature, room_layer){
+        //     room_layer.on('click', function(){ // The thing the user clicked on was a room
+        //         const room_props = this.feature.properties;
+
+        //         updateInfoPanel(`<strong>${current_building.properties.name}</strong><br>
+        //         Floor ${current_building.properties.floor}<br>
+        //         Code: ${(room_props.building_code + " " + room_props.code) || "N/A"}`);
+
+        //         if(current_room){ // If there is a room currently displayed, set it back to its default style
+        //           current_room.setStyle({
+        //             color: '#7f8c8d',
+        //             weight: 1,
+        //             fillColor: '#7f8c8d',
+        //             fillOpacity: 0.3
+        //           });
+        //         }
+
+        //         if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
+
+        //           this.setStyle({
+        //             color: '#e74c3c',
+        //             weight: 1,
+        //             fillColor: '#e74c3c',
+        //             fillOpacity: 1
+        //           });
+        //           current_room = this;
+        //         } else { // The case that the room currently in focus is the room that is clicked on
+        //           updateInfoPanel(`<strong>${current_building.properties.name}</strong><br>
+        //           Floor ${current_building.properties.floor}<br>
+        //           Code: ${current_building.properties.code || "N/A"}`);
+
+        //           current_room = null;
+        //         }
+        //       }
+        //     )
+        //   }
+        // }).addTo(map);
+        // setUpDownButtons();
       }
 
       upButton.addEventListener('click', function() {
@@ -375,19 +505,21 @@ fetch('data/buildings.geojson')
 
         // Add buildings
         buildings.forEach(feature => {
-          const li = document.createElement('li');
-          li.textContent = feature.properties.name;
-          li.addEventListener('click', function() {
-            searchResults.style.display = 'none';
-            searchInput.value = feature.properties.name;
-            map.eachLayer(layer => {
-              if (layer.feature && layer.feature.properties.type === 'building' &&
-                  layer.feature.properties.code === feature.properties.code) {
-                layer.fire('click');
-              }
+          if (feature.properties.floor === 0) {
+            const li = document.createElement('li');
+            li.textContent = feature.properties.name;
+            li.addEventListener('click', function() {
+              searchResults.style.display = 'none';
+              searchInput.value = feature.properties.name;
+              map.eachLayer(layer => {
+                if (layer.feature && layer.feature.properties.type === 'building' &&
+                    layer.feature.properties.code === feature.properties.code) {
+                  layer.fire('click');
+                }
+              });
             });
-          });
-          searchResults.appendChild(li);
+            searchResults.appendChild(li);
+          }
         });
 
         // Add rooms
@@ -409,7 +541,7 @@ fetch('data/buildings.geojson')
             });
 
             //Change the floor if needed
-            floorChange(feature.properties.floor - current_floor);
+            floorChange(feature.properties.floor - current_building.feature.properties.floor);
 
             // Then click on the room
             setTimeout(() => {
