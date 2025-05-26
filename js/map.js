@@ -244,9 +244,9 @@ fetch('data/buildings.geojson')
           L.geoJSON(targetBuilding, {
             style: { // Default building style
               color: '#e3000b',
-              weight: 2,
+              weight: 1,
               fillColor: '#e3000b',
-              fillOpacity: 0.3
+              fillOpacity: 0.5
             },
 
             onEachFeature: function (feature, layer) {
@@ -278,7 +278,7 @@ fetch('data/buildings.geojson')
                   if(current_building){ // If there is a building currently in focus, set it back to its default style
                     current_building.setStyle({
                       color: '#e3000b',
-                      weight: 2,
+                      weight: 1,
                       fillColor: '#e3000b',
                       fillOpacity: 0.5
                     });
@@ -286,7 +286,7 @@ fetch('data/buildings.geojson')
 
                   this.setStyle({
                     color: '#e3000b',
-                    weight: 2,
+                    weight: 1,
                     fillColor: '#fbf7f5',
                     fillOpacity: 1
                   });
