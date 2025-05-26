@@ -75,10 +75,10 @@ fetch('data/buildings.geojson')
         },
 
         style: { // Default building style
-          color: '#e74c3c',
-          weight: 2,
-          fillColor: '#e74c3c',
-          fillOpacity: 0.3
+          color: '#e3000b',
+          weight: 1,
+          fillColor: '#e3000b',
+          fillOpacity: 0.5
         },
 
         onEachFeature: function (feature, layer) {
@@ -109,17 +109,17 @@ fetch('data/buildings.geojson')
 
               if(current_building){ // If there is a building currently in focus, set it back to its default style
                 current_building.setStyle({
-                  color: '#e74c3c',
-                  weight: 2,
-                  fillColor: '#e74c3c',
-                  fillOpacity: 0.3
+                  color: '#e3000b',
+                  weight: 1,
+                  fillColor: '#e3000b',
+                  fillOpacity: 0.5
                 });
               }
 
               this.setStyle({
-                color: '#e74c3c',
-                weight: 2,
-                fillColor: 'white',
+                color: '#e3000b',
+                weight: 1,
+                fillColor: '#fbf7f5',
                 fillOpacity: 1
               });
 
@@ -128,9 +128,9 @@ fetch('data/buildings.geojson')
                   return room_feature.properties.type === "room" && room_feature.properties.building_code === props.code && room_feature.properties.floor === props.floor;
                 },
                 style: { // Default room style
-                  color: '#7f8c8d',
+                  color: '#797777',
                   weight: 1,
-                  fillColor: '#7f8c8d',
+                  fillColor: '#797777',
                   fillOpacity: 0.3
                 },
 
@@ -144,9 +144,9 @@ fetch('data/buildings.geojson')
 
                         if(current_room){ // If there is a room currently displayed, set it back to its default style
                           current_room.setStyle({
-                            color: '#7f8c8d',
+                            color: '#797777',
                             weight: 1,
-                            fillColor: '#7f8c8d',
+                            fillColor: '#797777',
                             fillOpacity: 0.3
                           });
                         }
@@ -155,9 +155,9 @@ fetch('data/buildings.geojson')
 
                           const layer = this;
                           layer.setStyle({
-                            color: '#e74c3c',
+                            color: '#cf3d2b',
                             weight: 1,
-                            fillColor: '#e74c3c',
+                            fillColor: '#cf3d2b',
                             fillOpacity: 1
                           });
                           current_room = this;
@@ -187,10 +187,10 @@ fetch('data/buildings.geojson')
         if (zoom <= 16 && roomLayer && current_building) {
           map.removeLayer(roomLayer);
           current_building.setStyle({
-            color: '#e74c3c',
-            weight: 2,
-            fillColor: '#e74c3c',
-            fillOpacity: 0.3
+            color: '#e3000b',
+            weight: 1,
+            fillColor: '#e3000b',
+            fillOpacity: 0.5
           });
           updateInfoPanel(null);
           current_building = null;
@@ -218,9 +218,9 @@ fetch('data/buildings.geojson')
 
         // if(current_room){ // If there is a room currently displayed, set it back to its default style
         //   current_room.setStyle({
-        //     color: '#7f8c8d',
+        //     color: '#797777',
         //     weight: 1,
-        //     fillColor: '#7f8c8d',
+        //     fillColor: '#797777',
         //     fillOpacity: 0.3
         //   });
         //   current_room = null;
@@ -243,9 +243,9 @@ fetch('data/buildings.geojson')
         if (targetBuilding) {
           L.geoJSON(targetBuilding, {
             style: { // Default building style
-              color: '#e74c3c',
+              color: '#e3000b',
               weight: 2,
-              fillColor: '#e74c3c',
+              fillColor: '#e3000b',
               fillOpacity: 0.3
             },
 
@@ -277,17 +277,17 @@ fetch('data/buildings.geojson')
 
                   if(current_building){ // If there is a building currently in focus, set it back to its default style
                     current_building.setStyle({
-                      color: '#e74c3c',
+                      color: '#e3000b',
                       weight: 2,
-                      fillColor: '#e74c3c',
-                      fillOpacity: 0.3
+                      fillColor: '#e3000b',
+                      fillOpacity: 0.5
                     });
                   }
 
                   this.setStyle({
-                    color: '#e74c3c',
+                    color: '#e3000b',
                     weight: 2,
-                    fillColor: 'white',
+                    fillColor: '#fbf7f5',
                     fillOpacity: 1
                   });
 
@@ -296,9 +296,9 @@ fetch('data/buildings.geojson')
                       return room_feature.properties.type === "room" && room_feature.properties.building_code === props.code && room_feature.properties.floor === props.floor;
                     },
                     style: { // Default room style
-                      color: '#7f8c8d',
+                      color: '#797777',
                       weight: 1,
-                      fillColor: '#7f8c8d',
+                      fillColor: '#797777',
                       fillOpacity: 0.3
                     },
 
@@ -312,9 +312,9 @@ fetch('data/buildings.geojson')
 
                             if(current_room){ // If there is a room currently displayed, set it back to its default style
                               current_room.setStyle({
-                                color: '#7f8c8d',
+                                color: '#797777',
                                 weight: 1,
-                                fillColor: '#7f8c8d',
+                                fillColor: '#797777',
                                 fillOpacity: 0.3
                               });
                             }
@@ -323,9 +323,9 @@ fetch('data/buildings.geojson')
 
                               const layer = this;
                               layer.setStyle({
-                                color: '#e74c3c',
+                                color: '#cf3d2b',
                                 weight: 1,
-                                fillColor: '#e74c3c',
+                                fillColor: '#cf3d2b',
                                 fillOpacity: 1
                               });
                               current_room = this;
@@ -368,9 +368,9 @@ fetch('data/buildings.geojson')
         //     return room_feature.properties.type === "room" && room_feature.properties.building_code === current_building.properties.code && room_feature.properties.floor === current_building.properties.floor;
         //   },
         //   style: { // Default room style
-        //     color: '#7f8c8d',
+        //     color: '#797777',
         //     weight: 1,
-        //     fillColor: '#7f8c8d',
+        //     fillColor: '#797777',
         //     fillOpacity: 0.3
         //   },
           
@@ -384,9 +384,9 @@ fetch('data/buildings.geojson')
 
         //         if(current_room){ // If there is a room currently displayed, set it back to its default style
         //           current_room.setStyle({
-        //             color: '#7f8c8d',
+        //             color: '#797777',
         //             weight: 1,
-        //             fillColor: '#7f8c8d',
+        //             fillColor: '#797777',
         //             fillOpacity: 0.3
         //           });
         //         }
@@ -394,9 +394,9 @@ fetch('data/buildings.geojson')
         //         if (current_room !== this){ // If the room currently in focus is not the room that is clicked on, or none is in focus...
 
         //           this.setStyle({
-        //             color: '#e74c3c',
+        //             color: '#e3000b',
         //             weight: 1,
-        //             fillColor: '#e74c3c',
+        //             fillColor: '#e3000b',
         //             fillOpacity: 1
         //           });
         //           current_room = this;
