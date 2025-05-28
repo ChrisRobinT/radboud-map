@@ -1,13 +1,6 @@
-const isMobile = window.innerWidth <= 768;
-
-const desktopBounds = L.latLngBounds(
+const bounds = L.latLngBounds(
     [51.815, 5.844],  // South-West corner
     [51.828, 5.88]   // North-East corner
-);
-
-const mobileBounds = L.latLngBounds(
-    [51.81, 5.844],  // South-West corner
-    [51.83, 5.88]   // North-East corner
 );
 
 const smoothRenderer = L.canvas({
@@ -15,16 +8,15 @@ const smoothRenderer = L.canvas({
 });
 
 const maxZoom = 21;
-const desktopMinZoom = 16;
-const mobileMinZoom = 15;
+const minZoom = 16;
 
 const map = L.map('map', {
-  maxBounds: isMobile ? mobileBounds : desktopBounds,
+  maxBounds: bounds,
   renderer: smoothRenderer,
   maxBoundsViscosity: 1.0,
   maxZoom: maxZoom,
-  minZoom: isMobile ? mobileMinZoom : desktopMinZoom
-}).setView([51.8215, 5.8637], (isMobile ? mobileMinZoom : desktopMinZoom));
+  minZoom: minZoom
+}).setView([51.8215, 5.8620], 16);
 
 const buildingLayer = L.featureGroup().addTo(map);
 
