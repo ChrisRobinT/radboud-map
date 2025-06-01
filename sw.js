@@ -19,6 +19,7 @@ var preLoad = function(){
       "/assets/icons/icon-192.png", 
       "/assets/icons/icon-512.png", 
       "/data/buildings.geojson", 
+      "/data/map.geojson",
       "/js/map.js",
       "/plugins/leaflet.edgebuffer.js"
     ]);
