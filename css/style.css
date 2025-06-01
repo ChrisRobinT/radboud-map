@@ -20,12 +20,13 @@ body {
 }
 
 #search {
+  touch-action: none;
   width: 100%;
   padding: 12px 15px 12px 40px;
   border: none;
   border-radius: 20px;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   transition: box-shadow 0.3s;
 }
@@ -45,6 +46,7 @@ body {
 }
 
 #searchResults {
+  touch-action: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -81,6 +83,7 @@ body {
 }
 
 #bottomTools {
+  touch-action: none;
   position: fixed;
   bottom: 0;
   left: 0;
