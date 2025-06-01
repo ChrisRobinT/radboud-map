@@ -67,14 +67,26 @@ var checkResponse = function(request){
 };
 
 var addToCache = function(request){
+  const url = new URL(request.url);
+
+  // Skip map tiles or external requests
+  if (
+    url.hostname.includes("tiles.stadiamaps.com") ||
+    !url.origin.includes(self.location.origin)
+  ) {
+    return Promise.resolve(); // do nothing
+  }
+
   return caches.open(CACHE_NAME).then(function (cache) {
     return fetch(request).then(function (response) {
-      console.log(response.url + " was cached");
-      return cache.put(request, response.clone());
-    }).catch(() => {
+      if (response && response.status === 200) {
+        console.log(response.url + " was cached");
+        return cache.put(request, response.clone());
+      }
     });
-  });
+  }).catch(() => {});
 };
+
 
 var returnFromCache = function(request){
   return caches.open(CACHE_NAME).then(function (cache) {
