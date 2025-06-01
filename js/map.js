@@ -72,6 +72,12 @@ function styleFeature(feature) {
 
 map.createPane('background');
 map.getPane('background').style.zIndex = 200;
+map.getPane('background').style.pointerEvents = 'none';
+
+const backgroundRenderer = L.canvas({
+  pane: 'background',
+  padding: 1.0
+});
 
 fetch('data/map.geojson')
   .then(res => res.json())
@@ -79,6 +85,7 @@ fetch('data/map.geojson')
     L.geoJSON(data, {
       pane: 'background',
       style: styleFeature,
+      renderer: backgroundRenderer
     }).addTo(map);
   });
 
@@ -137,6 +144,8 @@ fetch('data/buildings.geojson')
         filter: function(feature){
           return feature.properties.type === "building" && feature.properties.floor === 0;
         },
+
+
 
         style: { // Default building style
           color: '#e3000b',
