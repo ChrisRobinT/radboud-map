@@ -18,6 +18,70 @@ const map = L.map('map', {
   minZoom: minZoom
 }).setView([51.8215, 5.8620], 16);
 
+
+function styleFeature(feature) {
+  const tags = feature.properties || {};
+
+  if (tags.building) {
+    return {
+      color: '#999',
+      weight: 1,
+      fillColor: '#d0c0b0',
+      fillOpacity: 0.7
+    };
+  }
+  if (tags.landuse) {
+    return {
+      color: '#a0d080',
+      weight: 1,
+      fillColor: '#d0f0c0',
+      fillOpacity: 0.4
+    };
+  }
+  if (tags.leisure) {
+    return {
+      color: '#6bc26b',
+      weight: 1,
+      fillColor: '#b6f2b6',
+      fillOpacity: 0.4
+    };
+  }
+  if (tags.natural) {
+    return {
+      color: '#77ccee',
+      weight: 1,
+      fillColor: '#aadaff',
+      fillOpacity: 0.5
+    };
+  }
+  if (tags.waterway) {
+    return {
+      color: '#3399ff',
+      weight: 1.5,
+      fillOpacity: 0
+    };
+  }
+
+  // Default fallback style
+  return {
+    color: '#666',
+    weight: 1,
+    fillOpacity: 0.3
+  };
+}
+
+map.createPane('background');
+map.getPane('background').style.zIndex = 200;
+
+fetch('data/map.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, {
+      pane: 'background',
+      style: styleFeature,
+    }).addTo(map);
+  });
+
 const buildingLayer = L.featureGroup().addTo(map);
 
 map.zoomControl.remove();
@@ -47,15 +111,15 @@ map.on('zoomend', function () {
   }
 });
 
-L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-  maxZoom: 21,
-  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors',
-  keepBuffer: 4,
-  edgeBufferTiles: 3,
-  edgeBufferPx: 1000,
-  updateWhenIdle: false,
-  updateWhenZooming: true
-}).addTo(map);
+// L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
+//   maxZoom: 21,
+//   attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles &copy; OpenStreetMap contributors',
+//   keepBuffer: 4,
+//   edgeBufferTiles: 3,
+//   edgeBufferPx: 1000,
+//   updateWhenIdle: false,
+//   updateWhenZooming: true
+// }).addTo(map);
 
 const upButton = document.getElementById('upButton');
 const downButton = document.getElementById('downButton');
