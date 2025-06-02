@@ -1,6 +1,6 @@
 const bounds = L.latLngBounds(
-    [51.815, 5.844],  // South-West corner
-    [51.828, 5.88]   // North-East corner
+    [51.815, 5.846],  // South-West corner
+    [51.828, 5.884]   // North-East corner
 );
 
 const smoothRenderer = L.canvas({
@@ -16,7 +16,7 @@ const map = L.map('map', {
   maxBoundsViscosity: 1.0,
   maxZoom: maxZoom,
   minZoom: minZoom
-}).setView([51.8215, 5.8620], 16);
+}).setView([51.8215, 5.865], 16);
 
 
 function styleFeature(feature) {
