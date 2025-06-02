@@ -586,7 +586,7 @@ fetch('data/buildings.geojson')
               searchInput.value = feature.properties.name;
               map.eachLayer(layer => {
                 if (layer.feature && layer.feature.properties.type === 'building' &&
-                    layer.feature.properties.code === feature.properties.code) {
+                    layer.feature.properties.name === feature.properties.name) {
                   layer.fire('click');
                 }
               });
