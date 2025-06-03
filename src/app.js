@@ -47,6 +47,24 @@ function handleBuildingClick(buildingLayerInstance) {
 
     const props = buildingLayerInstance.feature.properties;
 
+    // if clicked on currently selected building
+    if(currentBuildingLayer === buildingLayerInstance){
+        currentRoomLayer.setStyle({
+            color: COLORS.ROOM_BORDER,
+            weight: 1,
+            fillColor: COLORS.ROOM_FILL,
+            fillOpacity: COLORS.ROOM_OPACITY
+        });
+
+        updateInfoPanel(`
+            <strong>${props.name}</strong><br>
+            Floor ${props.floor}<br>
+            Code: ${props.code || 'N/A'}
+        `);
+
+        currentRoomFeatureLayer = null;
+    }
+
     // if clicked on a new layer
     if(currentBuildingLayer !== buildingLayerInstance){
 
@@ -86,10 +104,10 @@ function handleBuildingClick(buildingLayerInstance) {
 
         // update info panel with new building info
         updateInfoPanel(`
-        <strong>${props.name}</strong><br>
-        Floor ${props.floor}<br>
-        Code: ${props.code || 'N/A'}
-    `);
+            <strong>${props.name}</strong><br>
+            Floor ${props.floor}<br>
+            Code: ${props.code || 'N/A'}
+        `);
 
         // if there was a room layer, remove it
         if (currentRoomLayer) {
@@ -110,8 +128,7 @@ function handleBuildingClick(buildingLayerInstance) {
 
                 // reset old room
                 if (
-                    currentRoomFeatureLayer &&
-                    currentRoomFeatureLayer !== roomLayerInstance
+                    currentRoomFeatureLayer
                 ) {
                     currentRoomFeatureLayer.setStyle({
                         color: COLORS.ROOM_BORDER,
@@ -122,20 +139,29 @@ function handleBuildingClick(buildingLayerInstance) {
                 }
 
                 // highlight new room
-                roomLayerInstance.setStyle({
-                    color: COLORS.ROOM_HIGHLIGHT_BORDER,
-                    weight: 1,
-                    fillColor: COLORS.ROOM_HIGHLIGHT_FILL,
-                    fillOpacity: COLORS.ROOM_HIGHLIGHT_OPACITY
-                });
-                currentRoomFeatureLayer = roomLayerInstance;
-
-                // update info panel to show room code
-                updateInfoPanel(`
-            <strong>${props.name}</strong><br>
-            Floor ${props.floor}<br>
-            Code: ${roomCode || 'N/A'}
-        `);
+                if (currentRoomFeatureLayer !== roomLayerInstance) {
+                    roomLayerInstance.setStyle({
+                        color: COLORS.ROOM_HIGHLIGHT_BORDER,
+                        weight: 1,
+                        fillColor: COLORS.ROOM_HIGHLIGHT_FILL,
+                        fillOpacity: COLORS.ROOM_HIGHLIGHT_OPACITY
+                    });
+                    // update info panel to show room code
+                    updateInfoPanel(`
+                        <strong>${props.name}</strong><br>
+                        Floor ${props.floor}<br>
+                        Code: ${roomCode || 'N/A'}
+                    `);
+                    currentRoomFeatureLayer = roomLayerInstance;
+                } else if (currentRoomFeatureLayer === roomLayerInstance) {
+                    currentRoomFeatureLayer = null;
+                    // update info panel to show building info
+                    updateInfoPanel(`
+                        <strong>${props.name}</strong><br>
+                        Floor ${props.floor}<br>
+                        Code: ${props.code || 'N/A'}
+                    `);
+                }
             }
         );
 
