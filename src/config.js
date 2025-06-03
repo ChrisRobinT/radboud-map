@@ -39,7 +39,7 @@ export const CANVAS_PADDING = 1.0;
 export const MAP_CONTAINER_ID = 'map';
 
 // INFO PANEL
-export const INFO_PANEL_ID = 'info-panel';
+export const INFO_PANEL_ID = 'infoPanel';
 
 // UP & DOWN FLOOR BUTTONS
 export const UP_BUTTON_ID   = 'upButton';
@@ -50,7 +50,7 @@ export const PLUS_BUTTON_ID  = 'plusButton';
 export const MINUS_BUTTON_ID = 'minusButton';
 
 // SEARCH
-export const SEARCH_INPUT_ID = 'searchInput';
+export const SEARCH_INPUT_ID = 'search';
 export const SEARCH_RESULTS_ID = 'searchResults';
 
 //─────────────────────────────────────────────────────────────────────────────
@@ -72,18 +72,6 @@ export const GEOJSON_PROPERTY_CODE = 'code';
 export const GEOJSON_PROPERTY_NAME = 'name';
 
 //─────────────────────────────────────────────────────────────────────────────
-// FLOORS
-//─────────────────────────────────────────────────────────────────────────────
-
-export const BUILDING_FLOORS = {
-    HG: [-2,0,1,2,3],
-    MERC: [0,1,2,3,4,5,6],
-    Transitorium: [-2,-1,0,1],
-    LIN: [-1,0,1],
-    EOS: [-1,0,1,2]
-};
-
-//─────────────────────────────────────────────────────────────────────────────
 // COLORS
 //─────────────────────────────────────────────────────────────────────────────
 
@@ -95,7 +83,7 @@ export const COLORS = {
 
     // Building highlight
     BUILDING_HIGHLIGHT_BORDER: '#cf3d2b',
-    BUILDING_HIGHLIGHT_FILL:   '#cf3d2b',
+    BUILDING_HIGHLIGHT_FILL:   '#fbf7f5',
     BUILDING_HIGHLIGHT_OPACITY: 1.0,
 
     // Room default style
