@@ -15,33 +15,72 @@ body {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 350px;
+  width: 400px;
   z-index: 1000;
-}
-
-#search {
-  touch-action: none;
-  width: 100%;
-  padding: 12px 15px 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
   border: none;
   border-radius: 20px;
   outline: none;
   font-size: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   transition: box-shadow 0.3s;
+  
 }
 
-#search:focus {
+#search {
+  touch-action: none;
+  flex: 0 0 70%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 12px 0px 12px 0px;
+}
+
+.search-container:focus-within {
   box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.topButton {
+  flex: 0 0 15%;
+  box-sizing: border-box;
+  background: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+#barsButton {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+#barsButton:hover {
+  cursor: pointer;
+}
+
+#barsButton:hover .bars-icon {
+  fill: black;
+}
+
+.bars-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: #666;
+}
+
+#searchButton {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .search-icon {
   position: absolute;
-  left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
   color: #666;
 }
 
@@ -194,4 +233,36 @@ body {
 #minusButton {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+}
+
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  z-index: 1001;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay .closeButton {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+  color: #818181;
+}
+
+.closeButton:hover {
+  color: black;
 }

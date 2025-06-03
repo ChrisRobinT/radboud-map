@@ -19,12 +19,18 @@
 
 <body>
 <div class="search-container">
-  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="11" cy="11" r="8"></circle>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-  </svg>
+  <button class="topButton" id="barsButton">
+    <svg class="bars-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
+  </button>
   <input id="search" placeholder="Search Radboud campus locations" onclick="this.select();">
   <ul id="searchResults"></ul>
+  <div class="topButton" id="searchButton">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </div>
+
 </div>
 
 <div id="bottomTools">
@@ -50,9 +56,15 @@
   </div>
 </div>
 
+<div id="sideMenu" class="overlay">
+  <a href="javascript:void(0)" id="sideMenuCloseButton" class="closeButton">&times;</a>
+  <div class="overlay-content">
+    <!-- Need some info and stuff here -->
+  </div>
+</div>
+
 
 <div id="map"></div>
-
 
 <script type="module" src="src/app.js"></script>
 

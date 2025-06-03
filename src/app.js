@@ -18,7 +18,10 @@ import {
     COLORS,
     MIN_ZOOM,
     UP_BUTTON_ID,
-    DOWN_BUTTON_ID
+    DOWN_BUTTON_ID,
+    SIDE_MENU_ID,
+    BARS_BUTTON_ID,
+    SIDE_MENU_CLOSE_BUTTON_ID
 } from './config.js';
 
 
@@ -300,6 +303,15 @@ function floorChange(delta) {
 
 
 // ui controls wire
+
+// implement the side menu
+document.getElementById(BARS_BUTTON_ID).addEventListener("click", function(e){
+  document.getElementById(SIDE_MENU_ID).style.width = "100%";
+});
+
+document.getElementById(SIDE_MENU_CLOSE_BUTTON_ID).addEventListener("click", function(e){
+  document.getElementById(SIDE_MENU_ID).style.width = "0%";
+});
 
 // replace default zoom UI with our buttons
 setupZoomControls(map);
