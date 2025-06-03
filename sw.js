@@ -20,7 +20,12 @@ var preLoad = function(){
       "/assets/icons/icon-512.png", 
       "/data/buildings.geojson", 
       "/data/map.geojson",
-      "/js/map.js",
+      "/src/app.js",
+      "/src/config.js",
+      "/src/infoPanel.js",
+      "/src/layers.js",
+      "/src/mapInit.js",
+      "/src/ui.js",
       "/plugins/leaflet.edgebuffer.js"
     ]);
   });
@@ -70,9 +75,8 @@ var checkResponse = function(request){
 var addToCache = function(request){
   const url = new URL(request.url);
 
-  // Skip map tiles or external requests
+  // Skip external requests
   if (
-    url.hostname.includes("tiles.stadiamaps.com") ||
     !url.origin.includes(self.location.origin)
   ) {
     return Promise.resolve(); // do nothing
