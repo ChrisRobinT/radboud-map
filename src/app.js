@@ -50,16 +50,6 @@ function handleBuildingClick(buildingLayerInstance) {
     // if clicked on a new layer
     if(currentBuildingLayer !== buildingLayerInstance){
 
-        // if there was a layer selected before, change it to default style
-        if (currentBuildingLayer) {
-            currentBuildingLayer.setStyle({
-                color: COLORS.BUILDING_BORDER,
-                weight: 1,
-                fillColor: COLORS.BUILDING_FILL,
-                fillOpacity: COLORS.BUILDING_OPACITY
-            });
-        }
-
         // change new layer to highlighted style
         buildingLayerInstance.setStyle({
             color: COLORS.BUILDING_HIGHLIGHT_BORDER,
@@ -68,8 +58,20 @@ function handleBuildingClick(buildingLayerInstance) {
             fillOpacity: COLORS.BUILDING_HIGHLIGHT_OPACITY
         });
 
-        // fly to the building if there is a new building selected (don't fly if it's the same building but different floor)
+        // if there is a new building selected (not if it's the same building but different floor)
         if(!currentBuildingLayer || currentBuildingLayer.feature.properties.code != props.code || props.code == null){
+            // if there was a previous building reset to floor 0
+            if(currentBuildingLayer){
+                floorChange(-currentBuildingLayer.feature.properties.floor);
+                currentBuildingLayer.setStyle({
+                    color: COLORS.BUILDING_BORDER,
+                    weight: 1,
+                    fillColor: COLORS.BUILDING_FILL,
+                    fillOpacity: COLORS.BUILDING_OPACITY
+                });
+            }
+
+            //fly to the new building
             map.dragging.disable();
             map.flyToBounds(buildingLayerInstance.getBounds(), {
                 animate: true,
@@ -167,6 +169,10 @@ fetch(GEOJSON_BUILDINGS_URL)
 
 map.on('zoomend', () => {
     if (map.getZoom() <= MIN_ZOOM && currentBuildingLayer) {
+
+        // reset to floor 0
+        floorChange(-currentBuildingLayer.feature.properties.floor);
+
         // if there is a room layer, remove it
         if (currentRoomLayer) {
             map.removeLayer(currentRoomLayer);
