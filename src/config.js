@@ -53,10 +53,13 @@ export const MINUS_BUTTON_ID = 'minusButton';
 export const SEARCH_INPUT_ID = 'search';
 export const SEARCH_RESULTS_ID = 'searchResults';
 
-// SIDE MENU
+// SIDE MENU CONTROL
 export const SIDE_MENU_ID = 'sideMenu';
 export const BARS_BUTTON_ID = 'barsButton';
 export const SIDE_MENU_CLOSE_BUTTON_ID = "sideMenuCloseButton";
+
+// SIDE MENU CONTENT
+export const COLLAPSIBLE_CLASS = 'collapsible';
 
 //─────────────────────────────────────────────────────────────────────────────
 // PROPERTY NAMES

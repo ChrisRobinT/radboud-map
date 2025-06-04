@@ -145,3 +145,32 @@ export function setupSearch(fullList, map, onBuildingSelect, onRoomSelect) {
         });
     });
 }
+
+// SIDE MENU CONTENT
+
+export function setupCollapsibles(collapsibleElements) {
+    var coll = collapsibleElements;
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+        content.style.display = "none";
+        } else {
+        content.style.display = "block";
+        }
+    });
+    }
+}
+
+export function closeCollapsibles(collapsibleElements) {
+    var coll = collapsibleElements;
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        var content = coll[i].nextElementSibling;
+        content.style.display = "none";
+    }
+}
+

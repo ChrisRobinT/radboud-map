@@ -11,7 +11,9 @@ import { updateInfoPanel } from './infoPanel.js';
 import {
     setupZoomControls,
     setupFloorButtons,
-    setupSearch
+    setupSearch,
+    setupCollapsibles,
+    closeCollapsibles
 } from './ui.js';
 import {
     GEOJSON_BUILDINGS_URL,
@@ -21,7 +23,8 @@ import {
     DOWN_BUTTON_ID,
     SIDE_MENU_ID,
     BARS_BUTTON_ID,
-    SIDE_MENU_CLOSE_BUTTON_ID
+    SIDE_MENU_CLOSE_BUTTON_ID,
+    COLLAPSIBLE_CLASS
 } from './config.js';
 
 
@@ -311,7 +314,10 @@ document.getElementById(BARS_BUTTON_ID).addEventListener("click", function(e){
 
 document.getElementById(SIDE_MENU_CLOSE_BUTTON_ID).addEventListener("click", function(e){
   document.getElementById(SIDE_MENU_ID).style.width = "0%";
+  closeCollapsibles(document.getElementsByClassName(COLLAPSIBLE_CLASS));
 });
+
+setupCollapsibles(document.getElementsByClassName(COLLAPSIBLE_CLASS));
 
 // replace default zoom UI with our buttons
 setupZoomControls(map);
