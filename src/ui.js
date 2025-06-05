@@ -6,7 +6,9 @@ import {
     UP_BUTTON_ID,
     DOWN_BUTTON_ID,
     SEARCH_INPUT_ID,
-    SEARCH_RESULTS_ID
+    SEARCH_RESULTS_ID,
+    DIRECTORY_TOGGLE_ID,
+    DIRECTORY_ID
 } from './config.js';
 
 // ZOOM CONTROLS
@@ -172,5 +174,39 @@ export function closeCollapsibles(collapsibleElements) {
         var content = coll[i].nextElementSibling;
         content.style.display = "none";
     }
+}
+
+// DIRECTORY TOGGLE
+export function setupDirectoryToggle() {
+    const directoryToggle = document.getElementById(DIRECTORY_TOGGLE_ID);
+    const directory = document.getElementById(DIRECTORY_ID);
+    let isDirectoryOpen = false;
+
+    directoryToggle.addEventListener('click', function() {
+        if (isDirectoryOpen) {
+            directory.classList.remove('show');
+            isDirectoryOpen = false;
+        } else {
+            directory.classList.add('show');
+            isDirectoryOpen = true;
+        }
+    });
+
+    // Close directory when clicking outside
+    document.addEventListener('click', function(e) {
+        const mapElement = document.getElementById('map');
+        const searchContainer = document.querySelector('.search-container');
+        const bottomTools = document.getElementById('bottomTools');
+
+        if (isDirectoryOpen &&
+            !directory.contains(e.target) &&
+            !directoryToggle.contains(e.target) &&
+            !mapElement.contains(e.target) &&
+            !searchContainer.contains(e.target) &&
+            !bottomTools.contains(e.target)) {
+            directory.classList.remove('show');
+            isDirectoryOpen = false;
+        }
+    });
 }
 

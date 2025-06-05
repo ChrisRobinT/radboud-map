@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62366c77-6512-4a9c-bf1f-73c9096b83e5" name="Changes" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/js/layers.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/js/mapInit.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/js/ui.js" afterDir="false" />
@@ -14,6 +15,9 @@
       <change beforePath="$PROJECT_DIR$/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/map.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/infoPanel.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +84,11 @@
       <workItem from="1747296772543" duration="1633000" />
       <workItem from="1747298558323" duration="1952000" />
       <workItem from="1747662566841" duration="347000" />
+<<<<<<< Updated upstream
       <workItem from="1748892981943" duration="8894000" />
+=======
+      <workItem from="1748976676060" duration="8765000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

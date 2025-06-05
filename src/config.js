@@ -61,6 +61,11 @@ export const SIDE_MENU_CLOSE_BUTTON_ID = "sideMenuCloseButton";
 // SIDE MENU CONTENT
 export const COLLAPSIBLE_CLASS = 'collapsible';
 
+
+// DIRECTORY TOGGLE
+export const DIRECTORY_TOGGLE_ID = 'directoryToggle';
+export const DIRECTORY_ID = 'directory';
+
 //─────────────────────────────────────────────────────────────────────────────
 // PROPERTY NAMES
 //─────────────────────────────────────────────────────────────────────────────

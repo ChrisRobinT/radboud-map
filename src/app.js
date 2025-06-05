@@ -8,12 +8,14 @@ import {
     createRoomLayer
 } from './layers.js';
 import { updateInfoPanel } from './infoPanel.js';
+import {updateDirectoryState, restoreRoomHighlights, initializeDirectory} from './directory.js';
 import {
     setupZoomControls,
     setupFloorButtons,
     setupSearch,
     setupCollapsibles,
-    closeCollapsibles
+    closeCollapsibles,
+    setupDirectoryToggle
 } from './ui.js';
 import {
     GEOJSON_BUILDINGS_URL,
@@ -176,6 +178,9 @@ function handleBuildingClick(buildingLayerInstance) {
 
         // enable/disable floor buttons
         updateFloorButtonStates();
+
+        // Update directory state when building selection changes
+        updateDirectoryState(currentBuildingLayer, currentRoomLayer);
     }
 }
 
@@ -188,8 +193,13 @@ fetch(GEOJSON_BUILDINGS_URL)
     .then((data) => {
         fullList = data;
 
+        window.fullList = () => fullList;
+
         // Draw every building with properties.type === "building" && floor === 0
         addGroundFloorBuildings(fullList, buildingLayer, handleBuildingClick);
+
+        // Initialize the directory with building data, building layer, and click handler
+        initializeDirectory(data, buildingLayer, handleBuildingClick);
     })
     .catch((err) => {
         console.error('Error loading buildings.geojson:', err);
@@ -266,7 +276,7 @@ function floorChange(delta) {
     const oldProps = currentBuildingLayer.feature.properties;
     const targetFloor = oldProps.floor + delta;
 
-    // find the building matching this building’s name & target floor
+    // find the building matching this building's name & target floor
     const nextFeature = fullList.features.find((f) => {
         return (
             f.properties.type === 'building' &&
@@ -279,7 +289,7 @@ function floorChange(delta) {
     // remove the old building layer from buildingLayer
     buildingLayer.removeLayer(currentBuildingLayer);
 
-    // if there’s a room layer, remove it
+    // if there's a room layer, remove it
     if (currentRoomLayer) {
         map.removeLayer(currentRoomLayer);
         currentRoomLayer = null;
@@ -295,14 +305,71 @@ function floorChange(delta) {
     // add it into the buildingLayer group
     buildingLayer.addLayer(newBuildingLayer);
 
-    
     newBuildingLayer.fire('click');
 
     currentBuildingLayer = newBuildingLayer;
 
     // enable/disable floor buttons
     updateFloorButtonStates();
+
+    // Update directory state and restore room highlights
+    updateDirectoryState(currentBuildingLayer, currentRoomLayer);
+
+    // Restore the room highlights after a small delay
+    setTimeout(() => {
+        restoreRoomHighlights();
+    }, 300);
 }
+
+// Classify a room based on its type or room code
+function classifyRoom(props) {
+    if (props.facility_type) {
+        return props.facility_type;
+    }
+
+    let code = '';
+    if (props.code) {
+        code = props.code.toLowerCase();
+    }
+
+    let restroomCodes = ['00.004', '00.005', '00.029', '00.023', '00.230', '00.231'];
+    if (code.match(/^00\.0[0-2][0-9]$/) || restroomCodes.includes(code)) {
+        return 'restroom';
+    }
+
+    let cafeCodes = ['00.533'];
+    if (code.match(/^00\.5[0-9][0-9]$/) || cafeCodes.includes(code)) {
+        return 'cafe';
+    }
+
+    return 'classroom';
+}
+
+// Get building name from its code
+function getBuildingName(buildingCode) {
+    if (!buildingCode || !fullList) {
+        return null;
+    }
+
+    let building = fullList.features.find(function (feature) {
+        return feature.properties.type === 'building' &&
+            feature.properties.code === buildingCode;
+    });
+
+    if (building) {
+        return building.properties.name;
+    } else {
+        return buildingCode;
+    }
+}
+
+// Make functions globally available for the directory
+window.classifyRoom = classifyRoom;
+window.getBuildingName = getBuildingName;
+window.fullList = () => fullList;
+window.currentBuildingLayer = () => currentBuildingLayer;
+window.currentRoomLayer = () => currentRoomLayer;
+window.updateInfoPanel = updateInfoPanel;
 
 
 // ui controls wire
@@ -321,6 +388,9 @@ setupCollapsibles(document.getElementsByClassName(COLLAPSIBLE_CLASS));
 
 // replace default zoom UI with our buttons
 setupZoomControls(map);
+
+// have the directory toggle open/close when the bars button is clicked
+setupDirectoryToggle();
 
 // wire floor Up/Down buttons to call floorChange(+1) / floorChange(-1)
 setupFloorButtons(
