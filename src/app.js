@@ -7,7 +7,7 @@ import {
     createBuildingFeatureLayer,
     createRoomLayer
 } from './layers.js';
-import { updateInfoPanel } from './infoPanel.js';
+import { updateInfoPanel, changeHuygensFloor } from './infoPanel.js';
 import {updateDirectoryState, restoreRoomHighlights, initializeDirectory} from './directory.js';
 import {
     setupZoomControls,
@@ -29,6 +29,7 @@ import {
     COLLAPSIBLE_CLASS
 } from './config.js';
 
+let floor;
 
 // INITIALIZE MAP
 
@@ -64,9 +65,11 @@ function handleBuildingClick(buildingLayerInstance) {
             fillOpacity: COLORS.ROOM_OPACITY
         });
 
+        floor = changeHuygensFloor(props.name, props.floor);
+
         updateInfoPanel(`
             <strong>${props.name}</strong><br>
-            Floor ${props.floor}<br>
+            Floor ${floor}<br>
             Code: ${props.code || 'N/A'}
         `);
 
@@ -111,9 +114,11 @@ function handleBuildingClick(buildingLayerInstance) {
         currentBuildingLayer = buildingLayerInstance;  
 
         // update info panel with new building info
+        floor = changeHuygensFloor(props.name, props.floor);   
+
         updateInfoPanel(`
             <strong>${props.name}</strong><br>
-            Floor ${props.floor}<br>
+            Floor ${floor}<br>
             Code: ${props.code || 'N/A'}
         `);
 
@@ -155,18 +160,21 @@ function handleBuildingClick(buildingLayerInstance) {
                         fillOpacity: COLORS.ROOM_HIGHLIGHT_OPACITY
                     });
                     // update info panel to show room code
+                    floor = changeHuygensFloor(props.name, props.floor);
+
                     updateInfoPanel(`
                         <strong>${props.name}</strong><br>
-                        Floor ${props.floor}<br>
+                        Floor ${floor}<br>
                         Code: ${roomCode || 'N/A'}
                     `);
                     currentRoomFeatureLayer = roomLayerInstance;
                 } else if (currentRoomFeatureLayer === roomLayerInstance) {
                     currentRoomFeatureLayer = null;
                     // update info panel to show building info
+                    floor = changeHuygensFloor(props.name, props.floor);
                     updateInfoPanel(`
                         <strong>${props.name}</strong><br>
-                        Floor ${props.floor}<br>
+                        Floor ${floor}<br>
                         Code: ${props.code || 'N/A'}
                     `);
                 }

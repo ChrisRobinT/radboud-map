@@ -1,4 +1,4 @@
-import {updateInfoPanel} from './infoPanel.js';
+import {updateInfoPanel, changeHuygensFloor} from './infoPanel.js';
 
 // Store references locally
 let fullListData = null;
@@ -382,13 +382,18 @@ function getCurrentlySelectedRoom() {
 }
 
 // Updates info panel with current building info
+
+
 function updateInfoPanelWithCounts() {
     if (!currentBuildingLayerRef) return;
 
     const props = currentBuildingLayerRef.feature.properties;
+
+    floor = changeHuygensFloor(props.name, props.floor);
+
     updateInfoPanel(`
         <strong>${props.name}</strong><br>
-        Floor ${props.floor}<br>
+        Floor ${floor}<br>
         Code: ${props.code || 'N/A'}
     `);
 }

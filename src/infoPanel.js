@@ -18,3 +18,10 @@ export function updateInfoPanel(content) {
     }
     
 }
+
+export function changeHuygensFloor(name, floor) {
+    if (name == 'Huygens Building' && floor === -1){
+        return -2;
+    }
+    return floor;
+}
