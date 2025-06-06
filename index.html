@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json" />
+  <title>Radboud Campus Map</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="search-container">
+  <button class="topButton" id="barsButton">
+    <svg class="bars-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
+  </button>
+  <input id="search" placeholder="Search Radboud campus locations" onclick="this.select();">
+  <ul id="searchResults"></ul>
+  <div class="topButton" id="searchButton">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </div>
+
+</div>
+
+<div id="bottomTools">
+  <div id="buildingTools" class="clickable">
+    <div id="infoPanel" class="clickable"></div>
+    <div id="floorSelect">
+      <button id="upButton" disabled class="floorButton clickable">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg>
+      </button>
+      <button id="downButton" disabled class="floorButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 10px; pointer-events: auto; margin-left: auto;">
+    <button id="directoryToggle" class="clickable">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/></svg>
+    </button>
+
+    <div id="zoomControl" class="clickable">
+      <button id="plusButton" class="zoomButton clickable">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+      </button>
+      <button id="minusButton" disabled class="zoomButton clickable">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="sideMenu" class="overlay">
+  <a href="javascript:void(0)" id="sideMenuCloseButton" class="closeButton">&times;</a>
+  <div class="overlayContent-container">
+    <div class="overlayContent">
+      <div class="collapsible">Controls</div>
+      <div class="content">
+        <p>Use your mouse or finger to pan across the map.
+          You can use the scroll wheel, two fingers, or the zoom buttons to zoom in and out.
+          To go to a specific building or room, use the search bar or click on the building or room directly.
+          Once a building or room is selected, information about its location and name are displayed on the bottom left.
+          To highlight certain facilities in a building of your choice, click the directory button next to the zoom button and select which facilities you would like to see.
+        </p>
+      </div>
+    </div>
+    <div class="overlayContent">
+      <div class="collapsible">About us</div>
+      <div class="content">
+        <p>This web app was created by Gregor Bujda, Björn Smith, Robin Strik, and Chris-Robin Talts. <br>
+        We are four first year Computing Science students from the Radboud University in Nijmegen. We have created this web app for the "R&D Project" course.</p>
+      </div>
+    </div>
+    <div class="overlayContent">
+      <div class="collapsible">Contact</div>
+      <div class="content">
+        <p>You can contact us via our GitLab project at <a href="https://gitlab.science.ru.nl/rstrik/radboud-map" target="_blank">https://gitlab.science.ru.nl/rstrik/radboud-map</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="directory">
+  <div class="directory-header">Directory</div>
+
+  <div class="category" data-type="cafe">
+    <div class="category-header" onclick="toggleDropdown(this)">
+      <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+        <line x1="6" y1="1" x2="6" y2="4"></line>
+        <line x1="10" y1="1" x2="10" y2="4"></line>
+        <line x1="14" y1="1" x2="14" y2="4"></line>
+      </svg>
+      <span class="category-text">Food & Drinks</span>
+      <span class="selected-building"></span>
+    </div>
+    <div class="room-dropdown">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <div class="category" data-type="lecturehall">
+    <div class="category-header" onclick="toggleDropdown(this)">
+      <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      <span class="category-text">Lecture Halls</span>
+      <span class="selected-building"></span>
+    </div>
+    <div class="room-dropdown">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <div class="category" data-type="restroom">
+    <div class="category-header" onclick="toggleDropdown(this)">
+      <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="m3 21 6-6"></path>
+        <path d="m15 21 6-6"></path>
+        <path d="M9 11v10"></path>
+        <path d="M15 11v10"></path>
+      </svg>
+      <span class="category-text">Restrooms</span>
+      <span class="selected-building"></span>
+    </div>
+    <div class="room-dropdown">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+</div>
+
+
+<div id="map"></div>
+
+<script type="module" src="src/app.js"></script>
+
+<script>
+ if (!navigator.serviceWorker.controller) {
+     navigator.serviceWorker.register("/sw.js").then(function(reg) {
+         console.log("Service worker has been registered for scope: " + reg.scope);
+     });
+ }
+</script>
+</body>
+</html>
