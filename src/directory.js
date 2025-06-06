@@ -9,28 +9,45 @@ let handleBuildingClickCallbackRef = null;
 const buildingNameCache = new Map();
 const roomTypeCache = new Map();
 const restroomCodes = new Set([
-    '00.42', '00.42a', '00.42b', '00.43', '00.43a', '00.43b', '00.44',
-    '01.25', '01.26', '01.24', '01.24a', '01.24b',
-    '02.22', '02.22c', '02.22d', '02.21', '02.21a', '02.21b',
-    '03.26', '03.26c', '03.26d', '03.23', '03.23a', '03.23b',
-    '04.25', '04.25c', '04.25d', '04.24', '04.24a', '04.24b',
-    '05.28', '05.28c', '05.28d', '05.27', '05.27a', '05.27b',
-    '06.26', '06.26c', '06.26d', '06.25', '06.25a', '06.25b',
-    '00.850', '00.840', '00.830', '00.820', '00.866',
-    '01.850', '01.840', '01.860', '01.830', '01.820',
-    '02.810', '02.820', '02.830',
-    '00.088', '00.089', '00.008', '00.007',
-    '01.087', '01.088', '01.052', '01.051', '01.035', '01.034', '01.033', '01.008', '01.007',
-    '02.087', '02.088', '02.057', '02.058', '02.035', '02.034', '02.033', '02.008', '02.007',
-    '03.087', '03.088', '03.057', '03.058', '03.034', '03.033', '03.032', '03.008', '03.007',
-    'restrooms', '-1.003', '-1.005', '-1.005A', '-1.005B', '-1.005C', '00.002', '00.002A',
-    '00.002B', '00.003', '00.003B', '00.003C', '00.003D'
+    // MERC toilets
+    'MERC/00.42', 'MERC/00.42a', 'MERC/00.42b', 'MERC/00.43', 'MERC/00.43a', 'MERC/00.43b', 'MERC/00.44',
+    'MERC/01.25', 'MERC/01.26', 'MERC/01.24', 'MERC/01.24a', 'MERC/01.24b',
+    'MERC/02.22', 'MERC/02.22c', 'MERC/02.22d', 'MERC/02.21', 'MERC/02.21a', 'MERC/02.21b',
+    'MERC/03.26', 'MERC/03.26c', 'MERC/03.26d', 'MERC/03.23', 'MERC/03.23a', 'MERC/03.23b',
+    'MERC/04.25', 'MERC/04.25c', 'MERC/04.25d', 'MERC/04.24', 'MERC/04.24a', 'MERC/04.24b',
+    'MERC/05.28', 'MERC/05.28c', 'MERC/05.28d', 'MERC/05.27', 'MERC/05.27a', 'MERC/05.27b',
+    'MERC/06.26', 'MERC/06.26c', 'MERC/06.26d', 'MERC/06.25', 'MERC/06.25a', 'MERC/06.25b',
+
+    // EOS toilets
+    'EOS/00.850', 'EOS/00.840', 'EOS/00.830', 'EOS/00.820', 'EOS/00.866',
+    'EOS/01.850', 'EOS/01.840', 'EOS/01.860', 'EOS/01.830', 'EOS/01.820',
+    'EOS/02.810', 'EOS/02.820', 'EOS/02.830',
+
+    // Huygens toilets
+    'HG/00.088', 'HG/00.089', 'HG/00.008', 'HG/00.007', 'HG/restrooms',
+    'HG/01.087', 'HG/01.088', 'HG/01.052', 'HG/01.051', 'HG/01.035', 'HG/01.034', 'HG/01.033', 'HG/01.008', 'HG/01.007',
+    'HG/02.087', 'HG/02.088', 'HG/02.057', 'HG/02.058', 'HG/02.035', 'HG/02.034', 'HG/02.033', 'HG/02.008', 'HG/02.007',
+    'HG/03.087', 'HG/03.088', 'HG/03.057', 'HG/03.058', 'HG/03.034', 'HG/03.033', 'HG/03.032', 'HG/03.008', 'HG/03.007',
+
+    // Transitorium toilets
+    'Transitorium/-1.003', 'Transitorium/-1.005', 'Transitorium/-1.005a', 'Transitorium/-1.005b', 'Transitorium/-1.005c',
+    'Transitorium/00.002', 'Transitorium/00.002a', 'Transitorium/00.002b', 'Transitorium/00.003', 'Transitorium/00.003b', 'Transitorium/00.003c', 'Transitorium/00.003d'
 ]);
+
 const cafeCodes = new Set([
-    '00.520', '00.533', '00.612', '00.360', '01.210'
+    // EOS food
+    'EOS/00.360', 'EOS/01.210',
+
+    // Huygens food
+    'HG/00.520', 'HG/00.533', 'HG/00.612'
 ]);
+
 const lectureHallCodes = new Set([
-    '00.303', '00.304', '00.307', '00.289', '01.630', '01.260', '01.044'
+    // EOS lecture halls
+    'EOS/00.289', 'EOS/01.630', 'EOS/01.260', 'EOS/01.044',
+
+    // Huygens lecture halls
+    'HG/00.303', 'HG/00.304', 'HG/00.307'
 ]);
 
 // Initializes the directory with building data and click handler
@@ -61,24 +78,23 @@ function classifyRoom(props) {
         return props.facility_type;
     }
 
-    let code = props.code ? props.code.toLowerCase() : '';
+    const buildingRoomCode = `${props.building_code}/${props.code?.toLowerCase() || ''}`;
 
-    if (restroomCodes.has(code)) {
+    if (restroomCodes.has(buildingRoomCode)) {
         roomTypeCache.set(cacheKey, 'restroom');
         return 'restroom';
     }
 
-    if (cafeCodes.has(code)) {
+    if (cafeCodes.has(buildingRoomCode)) {
         roomTypeCache.set(cacheKey, 'cafe');
         return 'cafe';
     }
 
-    if (lectureHallCodes.has(code)) {
+    if (lectureHallCodes.has(buildingRoomCode)) {
         roomTypeCache.set(cacheKey, 'lecturehall');
         return 'lecturehall';
     }
 
-    // Default to null
     return null;
 }
 
