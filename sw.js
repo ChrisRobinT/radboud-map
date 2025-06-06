@@ -26,6 +26,7 @@ var preLoad = function(){
       "/src/layers.js",
       "/src/mapInit.js",
       "/src/ui.js",
+      "/src/directory.js",
       "/plugins/leaflet.edgebuffer.js"
     ]);
   });
