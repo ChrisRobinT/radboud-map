@@ -1,5 +1,3 @@
-import {updateInfoPanel, changeHuygensFloor} from './infoPanel.js';
-
 // Store references locally
 let fullListData = null;
 let buildingLayerRef = null;
@@ -10,8 +8,30 @@ let handleBuildingClickCallbackRef = null;
 // Cache maps for storing building names and room types
 const buildingNameCache = new Map();
 const roomTypeCache = new Map();
-const restroomCodes = new Set(['00.004', '00.005', '00.029', '00.023', '00.230', '00.231']);
-const cafeCodes = new Set(['00.533']);
+const restroomCodes = new Set([
+    '00.42', '00.42a', '00.42b', '00.43', '00.43a', '00.43b', '00.44',
+    '01.25', '01.26', '01.24', '01.24a', '01.24b',
+    '02.22', '02.22c', '02.22d', '02.21', '02.21a', '02.21b',
+    '03.26', '03.26c', '03.26d', '03.23', '03.23a', '03.23b',
+    '04.25', '04.25c', '04.25d', '04.24', '04.24a', '04.24b',
+    '05.28', '05.28c', '05.28d', '05.27', '05.27a', '05.27b',
+    '06.26', '06.26c', '06.26d', '06.25', '06.25a', '06.25b',
+    '00.850', '00.840', '00.830', '00.820', '00.866',
+    '01.850', '01.840', '01.860', '01.830', '01.820',
+    '02.810', '02.820', '02.830',
+    '00.088', '00.089', '00.008', '00.007',
+    '01.087', '01.088', '01.052', '01.051', '01.035', '01.034', '01.033', '01.008', '01.007',
+    '02.087', '02.088', '02.057', '02.058', '02.035', '02.034', '02.033', '02.008', '02.007',
+    '03.087', '03.088', '03.057', '03.058', '03.034', '03.033', '03.032', '03.008', '03.007',
+    'restrooms', '-1.003', '-1.005', '-1.005A', '-1.005B', '-1.005C', '00.002', '00.002A',
+    '00.002B', '00.003', '00.003B', '00.003C', '00.003D'
+]);
+const cafeCodes = new Set([
+    '00.520', '00.533', '00.612', '00.360', '01.210'
+]);
+const lectureHallCodes = new Set([
+    '00.303', '00.304', '00.307', '00.289', '01.630', '01.260', '01.044'
+]);
 
 // Initializes the directory with building data and click handler
 export function initializeDirectory(buildingData, buildingLayerReference, buildingClickHandler) {
@@ -43,21 +63,25 @@ function classifyRoom(props) {
 
     let code = props.code ? props.code.toLowerCase() : '';
 
-    if (code.startsWith('00.0') && (code[4] >= '0' && code[4] <= '2') && (code[5] >= '0' && code[5] <= '9') ||
-        restroomCodes.has(code)) {
+    if (restroomCodes.has(code)) {
         roomTypeCache.set(cacheKey, 'restroom');
         return 'restroom';
     }
 
-    if (code.startsWith('00.5') && (code[4] >= '0' && code[4] <= '9') && (code[5] >= '0' && code[5] <= '9') ||
-        cafeCodes.has(code)) {
+    if (cafeCodes.has(code)) {
         roomTypeCache.set(cacheKey, 'cafe');
         return 'cafe';
     }
 
-    roomTypeCache.set(cacheKey, 'classroom');
-    return 'classroom';
+    if (lectureHallCodes.has(code)) {
+        roomTypeCache.set(cacheKey, 'lecturehall');
+        return 'lecturehall';
+    }
+
+    // Default to null
+    return null;
 }
+
 
 // Gets building name from building code using cache
 function getBuildingName(buildingCode) {
@@ -87,9 +111,10 @@ function populateDropdowns() {
 
     const buildingsByType = {
         cafe: new Set(),
-        classroom: new Set(),
-        restroom: new Set()
+        restroom: new Set(),
+        lecturehall: new Set()
     };
+
 
     const rooms = fullListData.features.filter(feature => feature.properties.type === 'room');
 
@@ -221,7 +246,7 @@ function highlightRoomsInCurrentBuilding(type) {
 
     const colors = {
         cafe: '#f39c12',
-        classroom: '#2ecc71',
+        lecturehall: '#2ecc71',
         restroom: '#9b59b6'
     };
 
@@ -381,24 +406,8 @@ function getCurrentlySelectedRoom() {
     return null;
 }
 
-// Updates info panel with current building info
 
-
-function updateInfoPanelWithCounts() {
-    if (!currentBuildingLayerRef) return;
-
-    const props = currentBuildingLayerRef.feature.properties;
-
-    floor = changeHuygensFloor(props.name, props.floor);
-
-    updateInfoPanel(`
-        <strong>${props.name}</strong><br>
-        Floor ${floor}<br>
-        Code: ${props.code || 'N/A'}
-    `);
-}
-
-// Restores room highlights after state changes 
+// Restores room highlights after state changes
 export function restoreRoomHighlights() {
     const selectedItems = document.querySelectorAll('.room-dropdown-item.selected');
     if (selectedItems.length > 0) {
