@@ -14,4 +14,11 @@ In our current school environment here at Radboud Universiteit, there are no tru
 <img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus" width="200"/>
 
 ## Authors and acknowledgment
+
+Robin Strik
+Gregor Bujda
+Björn Smith
+Chris-Robin Talts
+
+
 The data of the background map has been supplied by OpenStreetMap contributors.
