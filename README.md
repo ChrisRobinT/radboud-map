@@ -2,7 +2,7 @@
 
 > Interactive campus navigation Progressive Web App for Radboud University
 
-[Live Demo] https://radboud-map-52cbb1.pages.science.ru.nl/ | [Project Report](link-to-report.pdf)
+[Live Demo] https://radboud-map-52cbb1.pages.science.ru.nl/ | [Project Report] Project Report R&D Team-21.pdf
 
 ## 📱 Overview
 
@@ -54,10 +54,10 @@ npm start
 ## 📸 Screenshots
 
 ### Campus Overview
-![Campus overview showing all buildings] <img src="/assets/screenshots/screenshot1.png" alt="A screenshot showing several red buildings on top of a map of the Radboud Campus" width="250"/>
+![Campus overview showing all buildings] /assets/screenshots/screenshot1.png
 
 ### Room-Level Detail
-![Detailed floor plan of Mercator building] <img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus"
+![Detailed floor plan of Mercator building] /assets/screenshots/screenshot2.png
 
 ## 🎯 Key Achievements
 
