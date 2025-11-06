@@ -2,7 +2,7 @@
 
 > Interactive campus navigation Progressive Web App for Radboud University
 
-[Live Demo] https://radboud-map-52cbb1.pages.science.ru.nl/ | [Project Report] Project Report R&D Team-21.pdf
+[Live Demo](https://radboud-map-52cbb1.pages.science.ru.nl/) | [Project Report](docs/Project_Report_R&D_Team-21.pdf)
 
 ## 📱 Overview
 
@@ -31,7 +31,7 @@ Mobile-friendly web application helping 200+ Computing Science students navigate
 
 ### Installation
 
-\`\`\`bash
+```bash
 # Clone the repository
 git clone https://github.com/ChrisRobinT/campus-map-ru.git
 cd campus-map-ru
@@ -42,7 +42,7 @@ npm install
 # Run locally
 npm start
 # Or simply open index.html in your browser
-\`\`\`
+```
 
 ### Usage
 
@@ -83,7 +83,7 @@ Developed collaboratively in a 4-person team over 8 weeks:
 
 ## 📝 Data Attribution
 
-Background map data provided by OpenStreetMap contributors.
+Background map data provided by OpenStreetMap contributors.  
 Building floor plans manually digitized from Radboud University evacuation plans.
 
 ## 📄 License
@@ -92,22 +92,10 @@ MIT License - Built as a student project for Radboud University (2024)
 
 ## 🔗 Links
 
-- [Live Demo]https://radboud-map-52cbb1.pages.science.ru.nl/
-- [Project Documentation](link-to-full-report.pdf)
+- [Live Demo](https://radboud-map-52cbb1.pages.science.ru.nl/)
+- [Project Documentation](docs/Project_Report_R&D_Team-21.pdf)
 - [Radboud University](https://www.ru.nl)
 
 ---
 
 ⭐ If you find this project useful, please give it a star!
-
-
-
-
-
-<table>
-  <tr>
-    <td><img src="/assets/screenshots/screenshot1.png" alt="A screenshot showing several red buildings on top of a map of the Radboud Campus" width="250"/></td>
-    <td><img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus" width="250"/></td>
-  </tr>
-</table>
-
