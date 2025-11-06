@@ -2,7 +2,7 @@
 
 > Interactive campus navigation Progressive Web App for Radboud University
 
-[Live Demo](https://radboud-map-52cbb1.pages.science.ru.nl/) | [Project Report](docs/Project_Report_R&D_Team-21.pdf)
+[Live Demo](https://radboud-map-52cbb1.pages.science.ru.nl/) | [Project Report](Project_Report_R&D_Team-21.pdf)
 
 ## 📱 Overview
 
@@ -93,7 +93,7 @@ MIT License - Built as a student project for Radboud University (2024)
 ## 🔗 Links
 
 - [Live Demo](https://radboud-map-52cbb1.pages.science.ru.nl/)
-- [Project Documentation](docs/Project_Report_R&D_Team-21.pdf)
+- [Project Documentation](Project_Report_R&D_Team-21.pdf)
 - [Radboud University](https://www.ru.nl)
 
 ---
