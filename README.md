@@ -53,11 +53,12 @@ npm start
 
 ## 📸 Screenshots
 
-### Campus Overview
-<img src="/assets/screenshots/screenshot1.png" alt="A screenshot showing several red buildings on top of a map of the Radboud Campus" width="250"/>
+<p align="center">
+  <img src="/assets/screenshots/screenshot1.png" alt="Campus overview showing all buildings" width="400"/>
+  <img src="/assets/screenshots/screenshot2.png" alt="Room-level detail with floor plan" width="400"/>
+</p>
 
-### Room-Level Detail
-<img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus" width="250"/>
+*Left: Campus overview with searchable buildings | Right: Detailed room navigation*
 
 ## 🎯 Key Achievements
 
