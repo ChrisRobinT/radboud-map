@@ -11,6 +11,7 @@ In our current school environment here at Radboud Universiteit, there are no tru
 
 ## Visuals
 <img src="/assets/screenshots/screenshot1.png" alt="A screenshot showing several red buildings on top of a map of the Radboud Campus" width="150"/>
+
 <img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus" width="150"/>
 
 ## Authors and acknowledgment
