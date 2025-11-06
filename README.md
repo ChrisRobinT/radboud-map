@@ -54,10 +54,10 @@ npm start
 ## 📸 Screenshots
 
 ### Campus Overview
-![Campus overview showing all buildings] /assets/screenshots/screenshot1.png
+<img src="/assets/screenshots/screenshot1.png" alt="A screenshot showing several red buildings on top of a map of the Radboud Campus" width="250"/>
 
 ### Room-Level Detail
-![Detailed floor plan of Mercator building] /assets/screenshots/screenshot2.png
+<img src="/assets/screenshots/screenshot2.png" alt="A screenshot showing several rooms inside a building on a map of the Radboud Campus" width="250"/>
 
 ## 🎯 Key Achievements
 
