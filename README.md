@@ -15,10 +15,10 @@ In our current school environment here at Radboud Universiteit, there are no tru
 
 ## Authors and acknowledgment
 
-Robin Strik
-Gregor Bujda
-Björn Smith
-Chris-Robin Talts
+- Robin Strik
+- Gregor Bujda
+- Björn Smith
+- Chris-Robin Talts
 
 
 The data of the background map has been supplied by OpenStreetMap contributors.
